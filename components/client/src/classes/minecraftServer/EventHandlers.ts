@@ -1,7 +1,6 @@
 import { ServerClient } from "minecraft-protocol";
 import socketEventHandlers from "./socketEventHandlers";
 import EventHandler from "./EventHandler";
-import packageEventHandlers from "./packageEventHandlers";
 import CauldronFrontendServer from "./CauldronFrontendServer";
 const debug = require("debug")("cauldron:CauldronFrontendServer");
 
@@ -15,7 +14,6 @@ export default class EventHandlers {
 
   private setupEventHandlers() {
     this.registerEventHandlerArray("socket", socketEventHandlers);
-    this.registerEventHandlerArray("package", packageEventHandlers);
   }
 
   private registerEventHandlerArray(

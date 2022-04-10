@@ -1,4 +1,6 @@
-import CauldronFrontendServer from "./minecraftServer/CauldronFrontendServer";
+import CauldronFrontendServer, {
+  CauldronConfig,
+} from "./minecraftServer/CauldronFrontendServer";
 import NetworkConnection from "./network/NetworkConnection";
 import SocketIoNetworkConnection from "./network/SocketIoNetworkConnection";
 
@@ -10,8 +12,8 @@ export default class CauldronClient {
   frontendServer: CauldronFrontendServer;
   networkConnection: NetworkConnection;
 
-  constructor(serverAddress: string) {
-    this.frontendServer = new CauldronFrontendServer();
+  constructor(serverAddress: string, config: CauldronConfig) {
+    this.frontendServer = new CauldronFrontendServer(config);
     this.networkConnection = new SocketIoNetworkConnection(
       serverAddress,
       this.frontendServer
