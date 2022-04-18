@@ -14,6 +14,12 @@ export default class CauldronClient {
   minecraftServer: FlyingSquidWrapper;
   networkConnection: NetworkConnection;
 
+  static instance = new CauldronClient(":3000", {
+    version: "1.17.1",
+    motd: "Hello",
+    port: 30001,
+  });
+
   constructor(serverAddress: string, config: CauldronConfig) {
     debug("Setting up...");
 
