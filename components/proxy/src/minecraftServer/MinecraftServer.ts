@@ -1,5 +1,7 @@
 import MinecraftProtocol from "minecraft-protocol";
 import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
+import debugging from "debug";
+const debug = debugging("cauldron:MinecraftServer");
 
 export default class MinecraftServer {
   private server: MinecraftProtocol.Server;
@@ -12,6 +14,10 @@ export default class MinecraftServer {
     version: string = "1.18.2",
     motd: string = "A cauldron server"
   ) {
+    debug(`Setting up on port ${port} with version ${version}`);
+
+    this.handleLogin = this.handleLogin.bind(this);
+
     this.server = MinecraftProtocol.createServer({
       "online-mode": false,
       port,
@@ -20,6 +26,8 @@ export default class MinecraftServer {
     });
 
     this.setupMinecraftEventListeners();
+
+    debug("Init done");
   }
 
   getPort(): number {
@@ -27,6 +35,8 @@ export default class MinecraftServer {
   }
 
   async stop(): Promise<void> {
+    debug("Stopping server");
+
     this.disconnectAllClients();
     this.server.close();
   }
@@ -38,43 +48,93 @@ export default class MinecraftServer {
   }
 
   private setupMinecraftEventListeners() {
+    for (const event of ["login", "connection"]) {
+      // @ts-ignore
+      this.server.on(event, this.sendGameEventToFrontend(event));
+    }
+
     this.server.on("login", this.handleLogin);
   }
 
-  private handleLogin(client: MinecraftProtocol.ServerClient) {
-    this.clients.set(client.id, client);
-
-    this.sendLoginInfoMessageToFrontend(client);
-    client.on("packet", this.getPacketHandlerForClient(client));
-    client.on("end", this.getLogoutHandlerForClient(client));
+  private sendGameEventToFrontend(eventName: string) {
+    return (...eventData: any[]) => {
+      debug("Sending game event to frontend", eventName, eventData);
+      this.sendMessageToFrontend("game-event", eventName, ...eventData);
+    };
   }
 
-  private sendLoginInfoMessageToFrontend(
+  private handleLogin(client: MinecraftProtocol.ServerClient) {
+    debug(
+      `New player "${client.username}" connected to server on port ${this.port}`
+    );
+    this.clients.set(client.id, client);
+
+    for (const event of [
+      "packet",
+      "end",
+      "look",
+      "position_look",
+      "tab_complete",
+      "held_item_slot",
+      "close_window",
+      "arm_animation",
+      "entity_action",
+      "client_command",
+      "chat",
+      "settings",
+      "use_entity",
+      "block_place",
+    ]) {
+      client.on(event, this.sendPlayerEventToFrontend(event, client));
+    }
+  }
+
+  private sendPlayerEventToFrontend(
+    eventName: string,
     client: MinecraftProtocol.ServerClient
   ) {
-    this.sendMessageToFrontend("client connected", client);
+    return (...eventData: any[]) => {
+      debug(
+        "Sending player event to frontend",
+        eventName,
+        client.username,
+        eventData
+      );
+
+      this.sendMessageToFrontend(
+        "player-event",
+        client,
+        eventName,
+        ...eventData
+      );
+    };
   }
 
   private sendMessageToFrontend(messageKey: string, ...messageData: any[]) {
     this.frontendNetworkServer.sendMessageToClient(
       this.frontendClientId,
       messageKey,
-      ...messageData
+      ...this.prepareMessageData(messageData)
     );
   }
 
-  private getPacketHandlerForClient(client: MinecraftProtocol.ServerClient) {
-    return (data: any, packetMeta: MinecraftProtocol.PacketMeta) => {
-      if (packetMeta.name) {
-        this.sendMessageToFrontend("client packet", client, data, packetMeta);
+  private prepareMessageData(messageData: any[]) {
+    const finalMessageData = [];
+    for (const dataItem of messageData) {
+      if (typeof dataItem === "object" && "protocolState" in dataItem) {
+        const player = dataItem as MinecraftProtocol.ServerClient;
+        finalMessageData.push({
+          CAULDRON_TYPE: "player",
+          id: player.id,
+          uuid: player.uuid,
+          username: player.username,
+          state: player.state,
+        });
+      } else {
+        finalMessageData.push(dataItem);
       }
-    };
-  }
-
-  private getLogoutHandlerForClient(client: MinecraftProtocol.ServerClient) {
-    return (reason: string) => {
-      this.sendMessageToFrontend("client disconnected", client, reason);
-    };
+    }
+    return finalMessageData;
   }
 
   sendPackageToClient(
@@ -82,15 +142,27 @@ export default class MinecraftServer {
     packageType: string,
     contents: any
   ): void {
+    debug(
+      `Sending package of type "${packageType}" to client ID ${clientId} with contents`,
+      contents
+    );
+
+    if (packageType === "chat") {
+      debug("Ignoring chat for now");
+      return;
+    }
+
     const client = this.clients.get(clientId);
     if (!client) {
       throw new Error(`Client with id ${clientId} not found`);
     }
 
     client.write(packageType, contents);
+    debug("Package sent to client successful");
   }
 
   updateMotd(motd: string): void {
+    debug(`Updating MOTD to ${motd} for server on port ${this.port}`);
     this.server.motd = motd;
   }
 }

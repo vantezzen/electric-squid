@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/main.ts"
+    "start": "DEBUG=cauldron* ts-node src/main.ts"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.23",
     "debug": "^4.3.4",

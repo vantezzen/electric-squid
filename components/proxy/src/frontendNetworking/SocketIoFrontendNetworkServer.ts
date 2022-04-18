@@ -16,10 +16,12 @@ export default class SocketIoFrontendNetworkServer
   private serverManager?: MinecraftServerManager;
 
   constructor(
-    private port: number = 3000,
+    private port: number = 3005,
     private hostname: string = "localhost"
   ) {
     debug("Creating new socket.io frontend network server");
+
+    this.handleSocketConnection = this.handleSocketConnection.bind(this);
   }
 
   setServerManager(serverManager: MinecraftServerManager): void {
@@ -46,6 +48,9 @@ export default class SocketIoFrontendNetworkServer
 
     this.socketIoServer = new SocketIoServer(this.httpServer, {
       cookie: false,
+      cors: {
+        origin: "*",
+      },
     });
     this.socketIoServer.on("connection", this.handleSocketConnection);
   }
@@ -59,6 +64,7 @@ export default class SocketIoFrontendNetworkServer
       throw new Error("Cannot send message to client without socket.io server");
     }
 
+    debug("Sending message to client", messageKey, messageData);
     this.socketIoServer.to(clientId).emit(messageKey, ...messageData);
   }
 
@@ -90,12 +96,20 @@ export default class SocketIoFrontendNetworkServer
 
   private getSendMinecraftPackageHandlerForClient(socket: Socket) {
     return (clientId: number, packageType: string, packageData: any) => {
-      this.serverManager!.sendPackageToClientOnServer(
-        socket.id,
-        clientId,
-        packageType,
-        packageData
+      debug(
+        `Sending package from frontend to minecraft client of type ${packageType}`
       );
+
+      try {
+        this.serverManager!.sendPackageToClientOnServer(
+          socket.id,
+          clientId,
+          packageType,
+          packageData
+        );
+      } catch (e) {
+        debug("Could not send package:", e);
+      }
     };
   }
 

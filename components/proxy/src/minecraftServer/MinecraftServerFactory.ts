@@ -1,5 +1,7 @@
 import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
 import MinecraftServer from "./MinecraftServer";
+import debugging from "debug";
+const debug = debugging("cauldron:MinecraftServerFactory");
 
 export default class MinecraftServerFactory {
   constructor(private frontendNetworkServer: FrontendNetworkServer) {}
@@ -10,6 +12,9 @@ export default class MinecraftServerFactory {
     version: string,
     motd: string
   ): MinecraftServer {
+    debug(
+      `Creating server at port ${port} for version ${version} with MOTD ${motd}`
+    );
     return new MinecraftServer(
       frontendClientId,
       this.frontendNetworkServer,

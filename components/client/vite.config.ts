@@ -7,22 +7,6 @@ export default defineConfig({
   build: {
     target: "esnext",
   },
-  define: {
-    process: {
-      env: {},
-
-      // Needed for flying-squid's node version check
-      versions: {
-        node: "17.0.0",
-      },
-
-      // Indicate to packages that the script will run in the browser
-      browser: true,
-
-      // Needed for the colors library
-      argv: "",
-    },
-  },
   resolve: {
     alias: {
       process: "process/browser",

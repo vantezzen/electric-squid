@@ -45,10 +45,8 @@ export default class FlyingSquidWrapper extends EventEmitter {
     await this.setupPlugins();
 
     this._server.on("error", (error) => this.emit("error", error));
-    this._server.on("listening", () =>
-      this.emit("listening", this.config.port)
-    );
     this.emit("asap");
+    this.emit("listening", this.config.port);
   }
 
   private async getVersionInfo() {

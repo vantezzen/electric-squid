@@ -55,8 +55,12 @@ export default class SocketIoNetworkConnection
     debug("Registering game event listeners");
 
     this.socket.on("game-event", (...data: any[]) => {
-      debug("Received game event");
+      debug("Received game event", data);
       this.emit("game-event", ...data);
+    });
+    this.socket.on("player-event", (...data: any[]) => {
+      debug("Received player event", data);
+      this.emit("player-event", ...data);
     });
   }
 
@@ -65,7 +69,7 @@ export default class SocketIoNetworkConnection
     packageType: string,
     packageData: any
   ): void {
-    debug(`Sending package to client ${clientId}`);
+    debug(`Sending package to client ${clientId}`, packageType, packageData);
     this.socket.emit(
       "send minecraft package",
       clientId,
