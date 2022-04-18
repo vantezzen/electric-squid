@@ -1,3 +1,144 @@
+diff --git a/node_modules/flying-squid/src/lib/plugins/log.js b/node_modules/flying-squid/src/lib/plugins/log.js
+index 642379e..1640a9c 100644
+--- a/node_modules/flying-squid/src/lib/plugins/log.js
++++ b/node_modules/flying-squid/src/lib/plugins/log.js
+@@ -1,19 +1,6 @@
+-const fs = require('fs')
+-const timeStarted = Math.floor(new Date() / 1000).toString()
+-const path = require('path')
+-const mkdirp = require('mkdirp')
+-const moment = require('moment')
++const moment = require('moment').default
+ const colors = require('colors')
+ 
+-const readline = require('readline')
+-const rl = readline.createInterface({
+-  input: process.stdin,
+-  output: process.stdout
+-})
+-
+-rl.setPrompt('> ')
+-rl.prompt(true)
+-
+ module.exports.server = function (serv, settings) {
+   serv.on('error', error => serv.err('Server: ' + error.stack))
+   serv.on('clientError', (client, error) => serv.err('Client ' + client.socket.remoteAddress + ':' + client.socket.remotePort + ' : ' + error.stack))
+@@ -25,16 +12,9 @@ module.exports.server = function (serv, settings) {
+ 
+   serv.on('seed', (seed) => serv.log('Seed: ' + seed))
+ 
+-  const logFile = path.join('logs', timeStarted + '.log')
+-
+   serv.log = message => {
+-    readline.cursorTo(process.stdout, 0)
+     message = moment().format('MMMM Do YYYY, HH:mm:ss') + ' ' + message
+     if (!settings.noConsoleOutput) console.log(message)
+-    if (!settings.logging) return
+-    fs.appendFile(logFile, message + '\n', (err) => {
+-      if (err) console.log(err)
+-    })
+   }
+ 
+   serv.info = message => {
+@@ -49,41 +29,8 @@ module.exports.server = function (serv, settings) {
+     serv.log('[' + colors.yellow('WARN') + ']: ' + message)
+   }
+ 
+-  console.log = (function () {
+-    const orig = console.log
+-    return function () {
+-      readline.cursorTo(process.stdout, 0)
+-      let tmp
+-      try {
+-        tmp = process.stdout
+-        process.stdout = process.stderr
+-        orig.apply(console, arguments)
+-      } finally {
+-        process.stdout = tmp
+-      }
+-      rl.prompt(true)
+-    }
+-  })()
+-
+   serv.createLog = () => {
+-    if (!settings.logging) return
+-    mkdirp('logs', (err) => {
+-      if (err) {
+-        console.log(err)
+-        return
+-      }
+-
+-      fs.writeFile(logFile, '[INFO]: Started logging...\n',
+-        (err) => {
+-          if (err) console.log(err)
+-        })
+-    })
+   }
+-
+-  rl.on('line', (data) => {
+-    serv.handleCommand(data)
+-    rl.prompt(true)
+-  })
+ }
+ 
+ module.exports.player = function (player, serv) {
+diff --git a/node_modules/flying-squid/src/lib/plugins/login.js b/node_modules/flying-squid/src/lib/plugins/login.js
+index 1f75930..a98cba7 100644
+--- a/node_modules/flying-squid/src/lib/plugins/login.js
++++ b/node_modules/flying-squid/src/lib/plugins/login.js
+@@ -1,10 +1,7 @@
+ /* global BigInt */
+ const Vec3 = require('vec3').Vec3
+ 
+-const path = require('path')
+ const crypto = require('crypto')
+-const requireIndex = require('../requireindex')
+-const plugins = requireIndex(path.join(__dirname, '..', 'plugins'))
+ const playerDat = require('../playerDat')
+ const convertInventorySlotId = require('../convertInventorySlotId')
+ 
+@@ -20,6 +17,7 @@ module.exports.server = function (serv, options) {
+ 
+       player.profileProperties = player._client.profile ? player._client.profile.properties : []
+ 
++      const plugins = serv.pluginInstances;
+       Object.keys(plugins)
+         .filter(pluginName => plugins[pluginName].player !== undefined)
+         .forEach(pluginName => plugins[pluginName].player(player, serv, options))
+diff --git a/node_modules/flying-squid/src/lib/plugins/placeBlock.js b/node_modules/flying-squid/src/lib/plugins/placeBlock.js
+index c84d2b7..f501dbf 100644
+--- a/node_modules/flying-squid/src/lib/plugins/placeBlock.js
++++ b/node_modules/flying-squid/src/lib/plugins/placeBlock.js
+@@ -28,6 +28,10 @@ module.exports.server = (serv, { version }) => {
+   serv.onItemPlace = (name, handler, warn = true) => {
+     let item = mcData.itemsByName[name]
+     if (!item) item = mcData.blocksByName[name]
++    if (!item) {
++      serv.warn(`Item or block with name ${name} not found - ignoring`)
++      return
++    }
+     if (itemPlaceHandlers.has(item.id) && warn) {
+       serv.warn(`onItemPlace handler was registered twice for ${name}`)
+     }
+diff --git a/node_modules/flying-squid/src/lib/plugins/spawn.js b/node_modules/flying-squid/src/lib/plugins/spawn.js
+index 9e2659e..44902ac 100644
+--- a/node_modules/flying-squid/src/lib/plugins/spawn.js
++++ b/node_modules/flying-squid/src/lib/plugins/spawn.js
+@@ -1,6 +1,4 @@
+ const path = require('path')
+-const requireIndex = require('../requireindex')
+-const plugins = requireIndex(path.join(__dirname, '..', 'plugins'))
+ const UserError = require('flying-squid').UserError
+ const UUID = require('uuid-1345')
+ const Vec3 = require('vec3').Vec3
+@@ -17,6 +15,7 @@ module.exports.server = function (serv, options) {
+     serv.entityMaxId++
+     const entity = new Entity(serv.entityMaxId)
+ 
++    const plugins = serv.pluginInstances;
+     Object.keys(plugins)
+       .filter(pluginName => plugins[pluginName].entity !== undefined)
+       .forEach(pluginName => plugins[pluginName].entity(entity, serv, options))
 diff --git a/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js b/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js
 index 44f69c5..9878651 100644
 --- a/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js

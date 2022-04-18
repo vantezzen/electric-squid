@@ -1,0 +1,19 @@
+diff --git a/node_modules/prismarine-provider-anvil/src/1.14/chunk.js b/node_modules/prismarine-provider-anvil/src/1.14/chunk.js
+index c2685b0..d16d6ff 100644
+--- a/node_modules/prismarine-provider-anvil/src/1.14/chunk.js
++++ b/node_modules/prismarine-provider-anvil/src/1.14/chunk.js
+@@ -1,8 +1,13 @@
+ const nbt = require('prismarine-nbt')
+ const neededBits = require('prismarine-chunk/src/pc/common/neededBits')
++// vite doesn't allow dynamic imports, so we have to do this
++const bitArrayProviders = {
++  normal: require(`prismarine-chunk/src/pc/common/BitArray`),
++  noSpan: require(`prismarine-chunk/src/pc/common/BitArrayNoSpan`)
++}
+ 
+ module.exports = (mcVersion, worldVersion, noSpan) => {
+-  const BitArray = require(`prismarine-chunk/src/pc/common/BitArray${noSpan ? 'NoSpan' : ''}`)
++  const BitArray = bitArrayProviders[noSpan ? "noSpan" : "normal"];
+   const ChunkSection = require('prismarine-chunk')(mcVersion).section
+ 
+   return (Chunk, mcData) => {

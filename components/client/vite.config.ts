@@ -16,6 +16,9 @@ export default defineConfig({
         node: "17.0.0",
       },
 
+      // Indicate to packages that the script will run in the browser
+      browser: true,
+
       // Needed for the colors library
       argv: "",
     },
@@ -27,6 +30,7 @@ export default defineConfig({
       crypto: "crypto-browserify",
       zlib: "browserify-zlib",
       util: "util",
+      fs: "browserify-fs",
     },
   },
 });

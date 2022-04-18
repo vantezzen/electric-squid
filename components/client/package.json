@@ -12,6 +12,7 @@
     "@types/debug": "^4.1.7",
     "@types/events": "^3.0.0",
     "@types/node": "^17.0.24",
+    "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",

@@ -23,6 +23,7 @@ export type CauldronConfig = {
 export default class FlyingSquidWrapper extends EventEmitter {
   private version?: any;
   public commands = new Command({});
+  public pluginInstances: { [key: string]: any } = {};
   public _server?: FlyingSquidServerMock;
 
   constructor(
@@ -63,6 +64,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
       debug(`Loading plugin ${pluginName}`);
 
       const plugin = await loadPlugin();
+      this.pluginInstances[pluginName] = plugin;
       if (plugin.server) {
         plugin.server(this, this.config);
       }
@@ -72,6 +74,10 @@ export default class FlyingSquidWrapper extends EventEmitter {
 
   public supportFeature(feature: any) {
     debug(`Supporting feature ${feature}`);
+
+    // Fixes a problem in the portal plugin that tries to use a non-existent block
+    if (feature === "theFlattening") return true;
+
     return supportFeature(feature, this.version.majorVersion);
   }
 }

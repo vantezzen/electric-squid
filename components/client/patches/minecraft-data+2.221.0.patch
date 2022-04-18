@@ -1,111 +1,27 @@
+diff --git a/node_modules/minecraft-data/.DS_Store b/node_modules/minecraft-data/.DS_Store
+new file mode 100644
+index 0000000..d95a46e
+Binary files /dev/null and b/node_modules/minecraft-data/.DS_Store differ
 diff --git a/node_modules/minecraft-data/data.js b/node_modules/minecraft-data/data.js
-index e94aa62..3075990 100644
+index e94aa62..2ef0fd2 100644
 --- a/node_modules/minecraft-data/data.js
 +++ b/node_modules/minecraft-data/data.js
 @@ -1,5 +1,6 @@
 -module.exports =
 -{
-+const _dirname = new URL('.', import.meta.url).pathname;
++const __dirname = new URL('.', import.meta.url).pathname;
 +
 +export default {
    'pc': {
      '0.30c': {
        get blocks () { return require("./minecraft-data/data/pc/0.30c/blocks.json") },
-@@ -1131,16 +1132,16 @@ module.exports =
-     '1.16.201': {
-       get protocol () { return require("./minecraft-data/data/bedrock/1.16.201/protocol.json") },
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-       get windows () { return require("./minecraft-data/data/bedrock/1.16.201/windows.json") },
-       get version () { return require("./minecraft-data/data/bedrock/1.16.201/version.json") }
-     },
-     '1.16.210': {
-       get protocol () { return require("./minecraft-data/data/bedrock/1.16.210/protocol.json") },
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.16.210/version.json") }
-     },
-     '1.16.220': {
-@@ -1150,8 +1151,8 @@ module.exports =
-       get entities () { return require("./minecraft-data/data/bedrock/1.18.11/entities.json") },
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get protocol () { return require("./minecraft-data/data/bedrock/1.16.220/protocol.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.16.220/version.json") }
-     },
-     '1.17.0': {
-@@ -1169,8 +1170,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.17.0/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.17.0/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.0/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.0/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.17.0/version.json") }
-     },
-     '1.17.10': {
-@@ -1190,8 +1191,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.17.10/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.17.10/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.10/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.10/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.10/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.10/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.17.10/version.json") }
-     },
-     '1.17.30': {
-@@ -1211,8 +1212,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.17.10/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.17.10/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.30/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.30/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.30/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.30/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.17.30/version.json") }
-     },
-     '1.17.40': {
-@@ -1232,8 +1233,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.17.10/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.17.10/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.17.40/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.17.40/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.17.40/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.17.40/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.17.40/version.json") }
-     },
-     '1.18.0': {
-@@ -1253,8 +1254,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.18.0/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.18.0/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/1.18.0/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/1.18.0/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/1.18.0/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/1.18.0/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.18.0/version.json") }
-     },
-     '1.18.11': {
-@@ -1274,8 +1275,8 @@ module.exports =
-       get steve () { return require("./minecraft-data/data/bedrock/1.16.201/steve.json") },
-       get blocksB2J () { return require("./minecraft-data/data/bedrock/1.18.11/blocksB2J.json") },
-       get blocksJ2B () { return require("./minecraft-data/data/bedrock/1.18.11/blocksJ2B.json") },
--      proto: __dirname + '/minecraft-data/data/bedrock/latest/proto.yml',
--      types: __dirname + '/minecraft-data/data/bedrock/latest/types.yml',
-+      proto: _dirname + '/minecraft-data/data/bedrock/latest/proto.yml',
-+      types: _dirname + '/minecraft-data/data/bedrock/latest/types.yml',
-       get version () { return require("./minecraft-data/data/bedrock/1.18.11/version.json") }
-     }
-   }
+diff --git a/node_modules/minecraft-data/index.js b/node_modules/minecraft-data/index.js
+index 70cb787..5f971ec 100644
+--- a/node_modules/minecraft-data/index.js
++++ b/node_modules/minecraft-data/index.js
+@@ -130,4 +130,4 @@ const schemas = {
+ }
+ module.exports.schemas = schemas
+ 
+-const data = require('./data.js')
++const data = require('./data.js').default;
