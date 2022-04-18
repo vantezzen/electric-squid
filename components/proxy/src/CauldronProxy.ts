@@ -1,7 +1,5 @@
 import FrontendNetworkServer from "./frontendNetworking/FrontendNetworkServer";
 import SocketIoFrontendNetworkServer from "./frontendNetworking/SocketIoFrontendNetworkServer";
-import CauldronMinecraftServerFactory from "./minecraftServer/CauldronMinecraftServerFactory";
-import CauldronMinecraftServerManager from "./minecraftServer/CauldronMinecraftServerManager";
 import MinecraftServerFactory from "./minecraftServer/MinecraftServerFactory";
 import MinecraftServerManager from "./minecraftServer/MinecraftServerManager";
 
@@ -19,12 +17,10 @@ export default class CauldronProxy {
       frontendNetworkServer ?? new SocketIoFrontendNetworkServer();
 
     this.serverFactory =
-      serverFactory ??
-      new CauldronMinecraftServerFactory(this.frontendNetworkServer);
+      serverFactory ?? new MinecraftServerFactory(this.frontendNetworkServer);
 
     this.minecraftServerManager =
-      minecraftServerManager ??
-      new CauldronMinecraftServerManager(this.serverFactory);
+      minecraftServerManager ?? new MinecraftServerManager(this.serverFactory);
 
     this.frontendNetworkServer.setServerManager(this.minecraftServerManager);
   }

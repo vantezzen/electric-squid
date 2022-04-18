@@ -34,7 +34,7 @@ export default class SocketIoFrontendNetworkServer
   private setupExpressServer() {
     this.express = Express();
     this.httpServer = Http.createServer(this.express);
-    this.httpServer.listen(this.port, function () {
+    this.httpServer.listen(this.port, () => {
       console.log(`Webserver listening on port ${this.port}`);
     });
   }

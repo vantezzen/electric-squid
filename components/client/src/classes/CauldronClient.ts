@@ -1,23 +1,30 @@
-import CauldronFrontendServer, {
+import FlyingSquidWrapper, {
   CauldronConfig,
-} from "./minecraftServer/CauldronFrontendServer";
+} from "./minecraftServer/FlyingSquidWrapper";
 import NetworkConnection from "./network/NetworkConnection";
 import SocketIoNetworkConnection from "./network/SocketIoNetworkConnection";
+import debugging from "debug";
+const debug = debugging("cauldron:CauldronClient");
 
 /**
  * Cauldron frontend client
  * Sets up the server and the network connection to get the server up and running
  */
 export default class CauldronClient {
-  frontendServer: CauldronFrontendServer;
+  minecraftServer: FlyingSquidWrapper;
   networkConnection: NetworkConnection;
 
   constructor(serverAddress: string, config: CauldronConfig) {
-    this.frontendServer = new CauldronFrontendServer(config);
+    debug("Setting up...");
+
     this.networkConnection = new SocketIoNetworkConnection(
       serverAddress,
-      this.frontendServer
+      config
     );
-    this.frontendServer.setNetworkConnection(this.networkConnection);
+
+    this.minecraftServer = new FlyingSquidWrapper(
+      config,
+      this.networkConnection
+    );
   }
 }

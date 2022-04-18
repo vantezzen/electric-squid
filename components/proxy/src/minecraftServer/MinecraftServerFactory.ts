@@ -1,13 +1,21 @@
+import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
 import MinecraftServer from "./MinecraftServer";
 
-/**
- * Server factory for creating new Servers for frontend clients
- */
-export default interface MinecraftServerFactory {
+export default class MinecraftServerFactory {
+  constructor(private frontendNetworkServer: FrontendNetworkServer) {}
+
   createMinecraftServer(
     frontendClientId: string,
     port: number,
     version: string,
     motd: string
-  ): MinecraftServer;
+  ): MinecraftServer {
+    return new MinecraftServer(
+      frontendClientId,
+      this.frontendNetworkServer,
+      port,
+      version,
+      motd
+    );
+  }
 }

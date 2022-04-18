@@ -1,28 +1,33 @@
 import NetworkConnection from "./NetworkConnection";
 import SocketIo, { Socket } from "socket.io-client";
-import CauldronFrontendServer from "../minecraftServer/CauldronFrontendServer";
-import eventHandlers from "../minecraftServer/socketEventHandlers";
-import { ServerClient } from "minecraft-protocol";
+import EventEmitter from "events";
+import { CauldronConfig } from "../minecraftServer/FlyingSquidWrapper";
+import debugging from "debug";
+const debug = debugging("cauldron:NetworkConnection");
 
-const debug = require("debug")("cauldron:NetworkConnection");
-
-export default class SocketIoNetworkConnection implements NetworkConnection {
+export default class SocketIoNetworkConnection
+  extends EventEmitter
+  implements NetworkConnection
+{
   socket: Socket;
+  public ip?: string;
 
-  constructor(
-    serverAddress: string,
-    private readonly minecraftServer: CauldronFrontendServer
-  ) {
+  constructor(serverAddress: string, private readonly config: CauldronConfig) {
+    super();
+
     this.socket = SocketIo(serverAddress);
     this.setupSocketEvents();
   }
 
   private setupSocketEvents(): void {
     this.setupConnectionHandlers();
+    this.requestServerPort();
     this.setupGameEventHandlers();
   }
 
   private setupConnectionHandlers() {
+    debug("Registering socket listeners");
+
     this.socket.on("connect", () => {
       debug("Connected to server");
     });
@@ -32,25 +37,27 @@ export default class SocketIoNetworkConnection implements NetworkConnection {
     });
   }
 
-  private setupGameEventHandlers() {
-    for (const eventHandler of eventHandlers) {
-      this.socket.on(
-        eventHandler.eventName,
-        (client: ServerClient, ...packageData: any[]) => {
-          debug(
-            `Handling event ${eventHandler.eventName}`,
-            client,
-            packageData
-          );
+  private requestServerPort() {
+    debug("Sending server port request");
 
-          this.minecraftServer.eventHandlers.handleSocketEvent(
-            eventHandler.eventName,
-            client,
-            ...packageData
-          );
-        }
-      );
-    }
+    this.socket.emit(
+      "create server",
+      this.config.version,
+      this.config.motd,
+      (ip: string) => {
+        debug(`Server created on ${ip}`);
+        this.ip = ip;
+      }
+    );
+  }
+
+  private setupGameEventHandlers() {
+    debug("Registering game event listeners");
+
+    this.socket.on("game-event", (...data: any[]) => {
+      debug("Received game event");
+      this.emit("game-event", ...data);
+    });
   }
 
   sendPackageToClient(

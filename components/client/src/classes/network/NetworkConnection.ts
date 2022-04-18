@@ -4,4 +4,6 @@ export default interface NetworkConnection {
     packageType: string,
     packageData: any
   ): void;
+
+  on(event: "game-event", listener: (...data: any[]) => void): this;
 }

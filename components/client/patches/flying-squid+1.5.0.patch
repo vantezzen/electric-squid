@@ -1,0 +1,13 @@
+diff --git a/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js b/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js
+index 44f69c5..9878651 100644
+--- a/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js
++++ b/node_modules/flying-squid/src/lib/worldGenerations/grass_field.js
+@@ -4,7 +4,7 @@ function generation ({ version }) {
+   const Chunk = require('prismarine-chunk')(version)
+   const mcData = require('minecraft-data')(version)
+   const versionObject = mcData.version
+-  const theFlattening = require('./lib/supportFeature')('theFlattening', versionObject.majorVersion)
++  const theFlattening = require('../supportFeature')('theFlattening', versionObject.majorVersion)
+ 
+   function generateSimpleChunk () {
+     const chunk = new Chunk()

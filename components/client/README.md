@@ -1,1 +1,0 @@
-# Cauldron.js Client
