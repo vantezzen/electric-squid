@@ -8,12 +8,13 @@ export default defineConfig({
     target: "esnext",
   },
   define: {
-    global: {},
     process: {
       env: {},
 
       // Needed for flying-squid's node version check
-      "versions.node": "17.0.0",
+      versions: {
+        node: "17.0.0",
+      },
     },
   },
   resolve: {
