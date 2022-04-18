@@ -25,4 +25,7 @@ export default class ServerClientMock extends MinecraftProtocol.Client {
   public write(name: string, params: any) {
     this.wrapper.network.sendPackageToClient(this.id, name, params);
   }
+
+  public writeChannel() {}
+  public registerChannel() {}
 }

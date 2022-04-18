@@ -103,8 +103,8 @@ export default class MinecraftServer {
 
       this.sendMessageToFrontend(
         "player-event",
-        client,
         eventName,
+        client,
         ...eventData
       );
     };
@@ -144,7 +144,7 @@ export default class MinecraftServer {
   ): void {
     debug(
       `Sending package of type "${packageType}" to client ID ${clientId} with contents`,
-      contents
+      JSON.stringify(contents, null, 2)
     );
 
     if (packageType === "chat") {
