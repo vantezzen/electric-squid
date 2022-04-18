@@ -15,6 +15,9 @@ export default defineConfig({
       versions: {
         node: "17.0.0",
       },
+
+      // Needed for the colors library
+      argv: "",
     },
   },
   resolve: {

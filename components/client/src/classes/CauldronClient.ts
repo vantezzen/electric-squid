@@ -18,6 +18,7 @@ export default class CauldronClient {
     version: "1.17.1",
     motd: "Hello",
     port: 30001,
+    plugins: [],
   });
 
   constructor(serverAddress: string, config: CauldronConfig) {

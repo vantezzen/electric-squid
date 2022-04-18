@@ -14,6 +14,7 @@ export type CauldronConfig = {
   version: string;
   motd: string;
   port: number;
+  plugins: [];
 };
 
 /**
