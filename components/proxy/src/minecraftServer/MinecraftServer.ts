@@ -69,15 +69,15 @@ export default class MinecraftServer {
     );
     this.clients.set(client.id, client);
 
-    client.write("login", {
-      entityId: 1,
-      levelType: "default",
-      gameMode: 1,
-      dimension: 0,
-      difficulty: 2,
-      maxPlayers: 10,
-      reducedDebugInfo: false,
-    });
+    // client.write("login", {
+    //   entityId: 1,
+    //   levelType: "default",
+    //   gameMode: 1,
+    //   dimension: 0,
+    //   difficulty: 2,
+    //   maxPlayers: 10,
+    //   reducedDebugInfo: false,
+    // });
 
     for (const event of [
       "packet",
@@ -156,19 +156,16 @@ export default class MinecraftServer {
     packageType: string,
     contents: any
   ): void {
-    debug(
-      `Sending package of type "${packageType}" to client ID ${clientId} with contents`,
-      JSON.stringify(contents, null, 2)
-    );
+    debug(`Sending package of type "${packageType}" to client ID ${clientId}`);
 
-    if (packageType === "chat") {
-      debug("Ignoring chat for now");
-      return;
-    }
-    if (packageType === "login") {
-      debug("No login package");
-      return;
-    }
+    // if (packageType === "chat") {
+    //   debug("Ignoring chat for now");
+    //   return;
+    // }
+    // if (packageType === "login") {
+    //   debug("No login package");
+    //   return;
+    // }
 
     const client = this.clients.get(clientId);
     if (!client) {

@@ -15,7 +15,7 @@ export default class CauldronClient {
   networkConnection: NetworkConnection;
 
   static instance = new CauldronClient(":3005", {
-    version: "1.16",
+    version: "1.13.2",
     motd: "Hello",
   });
 
