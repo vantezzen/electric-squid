@@ -69,6 +69,16 @@ export default class MinecraftServer {
     );
     this.clients.set(client.id, client);
 
+    client.write("login", {
+      entityId: 1,
+      levelType: "default",
+      gameMode: 1,
+      dimension: 0,
+      difficulty: 2,
+      maxPlayers: 10,
+      reducedDebugInfo: false,
+    });
+
     for (const event of [
       "packet",
       "end",
@@ -87,6 +97,10 @@ export default class MinecraftServer {
     ]) {
       client.on(event, this.sendPlayerEventToFrontend(event, client));
     }
+
+    client.on("error", (error) => {
+      debug(`A client on port ${this.port} reported an error:`, error);
+    });
   }
 
   private sendPlayerEventToFrontend(
@@ -149,6 +163,10 @@ export default class MinecraftServer {
 
     if (packageType === "chat") {
       debug("Ignoring chat for now");
+      return;
+    }
+    if (packageType === "login") {
+      debug("No login package");
       return;
     }
 

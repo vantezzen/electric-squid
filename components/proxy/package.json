@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=cauldron* ts-node src/main.ts"
+    "start": "DEBUG=cauldron*,minecraft-protocol* ts-node src/main.ts"
   },
   "author": "",
   "license": "MIT",

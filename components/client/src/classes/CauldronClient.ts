@@ -17,8 +17,6 @@ export default class CauldronClient {
   static instance = new CauldronClient(":3005", {
     version: "1.16",
     motd: "Hello",
-    port: 30001,
-    plugins: [],
   });
 
   constructor(serverAddress: string, config: CauldronConfig) {
