@@ -11,8 +11,8 @@ export default class MinecraftServer {
     private readonly frontendClientId: string,
     private readonly frontendNetworkServer: FrontendNetworkServer,
     private readonly port: number = 3000,
-    version: string = "1.18.2",
-    motd: string = "An electric squid server"
+    version: string = "1.13.2",
+    motd: string = "An electric-squid server"
   ) {
     debug(`Setting up on port ${port} with version ${version}`);
 
@@ -68,16 +68,6 @@ export default class MinecraftServer {
       `New player "${client.username}" connected to server on port ${this.port}`
     );
     this.clients.set(client.id, client);
-
-    // client.write("login", {
-    //   entityId: 1,
-    //   levelType: "default",
-    //   gameMode: 1,
-    //   dimension: 0,
-    //   difficulty: 2,
-    //   maxPlayers: 10,
-    //   reducedDebugInfo: false,
-    // });
 
     for (const event of [
       "packet",
@@ -157,15 +147,6 @@ export default class MinecraftServer {
     contents: any
   ): void {
     debug(`Sending package of type "${packageType}" to client ID ${clientId}`);
-
-    // if (packageType === "chat") {
-    //   debug("Ignoring chat for now");
-    //   return;
-    // }
-    // if (packageType === "login") {
-    //   debug("No login package");
-    //   return;
-    // }
 
     const client = this.clients.get(clientId);
     if (!client) {

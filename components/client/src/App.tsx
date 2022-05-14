@@ -10,7 +10,7 @@ function App() {
 
     return SquidClient.setupOrGetInstance(":3005", {
       version: "1.13.2",
-      motd: "Hello",
+      motd: "An electric-squid server",
     });
   });
 
