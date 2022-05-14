@@ -9,7 +9,7 @@ function App() {
     console.log("setting up game");
 
     return SquidClient.setupOrGetInstance(":3005", {
-      version: "1.13.2",
+      version: "1.16",
       motd: "An electric-squid server",
     });
   });

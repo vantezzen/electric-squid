@@ -1,10 +1,11 @@
 import React from "react";
 import SquidClient from "../classes/SquidClient";
 import Button from "../components/Button";
-import Center from "../components/Center";
+import Console from "../components/Console";
+import Fact from "../components/Fact";
 import PageHeader from "../components/PageHeader";
 import PageLayout from "../components/PageLayout";
-import SubText from "../components/SubText";
+import TextInput from "../components/TextInput";
 
 function Running({ game }: { game: SquidClient }) {
   return (
@@ -12,19 +13,30 @@ function Running({ game }: { game: SquidClient }) {
       <div className="text-center">
         <PageHeader>Your server is ready!</PageHeader>
 
-        <p className="mb-3">Server IP: {game.networkConnection.ip}</p>
-        <p className="mb-3">
-          Players:{" "}
+        <Fact title="Server IP">
+          <code>{game.networkConnection.ip}</code>
+        </Fact>
+
+        <Fact title="Players">
           {game?.minecraftServer.players
             .map((player) => player.username)
             .join(", ") ?? "No players"}
-        </p>
-        <pre
-          className="text-white font-mono bg-slate-900 text-left"
-          style={{ minHeight: "40vh" }}
+        </Fact>
+
+        <Fact title="Version">
+          <code>{game.minecraftServer.version?.majorVersion}</code>
+        </Fact>
+
+        <Console game={game} />
+
+        <Button
+          onClick={() => {
+            // Incredibly hacky way to do this but works for now
+            window.location.reload();
+          }}
         >
-          {game?.minecraftServer.logger.messages.join("\n")}
-        </pre>
+          Close server
+        </Button>
       </div>
     </PageLayout>
   );

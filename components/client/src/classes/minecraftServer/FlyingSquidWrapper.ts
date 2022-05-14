@@ -104,7 +104,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
   }
 
   private async getVersionInfo() {
-    return import(`minecraft-data/minecraft-data/data/pc/1.13.2/version.json`);
+    return import(`minecraft-data/minecraft-data/data/pc/1.16/version.json`);
   }
 
   private checkIfVersionIsSupportedOrThrow() {}
