@@ -1,18 +1,19 @@
-import NetworkConnection from "./NetworkConnection";
 import SocketIo, { Socket } from "socket.io-client";
 import EventEmitter from "events";
-import { CauldronConfig } from "../minecraftServer/FlyingSquidWrapper";
 import debugging from "debug";
+import CauldronClient from "../CauldronClient";
+import { CauldronConfig } from "../minecraftServer/types";
 const debug = debugging("cauldron:NetworkConnection");
 
-export default class SocketIoNetworkConnection
-  extends EventEmitter
-  implements NetworkConnection
-{
+export default class SocketIoNetworkConnection extends EventEmitter {
   socket: Socket;
   public ip?: string;
 
-  constructor(serverAddress: string, private readonly config: CauldronConfig) {
+  constructor(
+    serverAddress: string,
+    private readonly config: CauldronConfig,
+    private readonly client: CauldronClient
+  ) {
     super();
 
     this.socket = SocketIo(serverAddress);
@@ -21,7 +22,6 @@ export default class SocketIoNetworkConnection
 
   private setupSocketEvents(): void {
     this.setupConnectionHandlers();
-    this.requestServerPort();
     this.setupGameEventHandlers();
   }
 
@@ -37,7 +37,7 @@ export default class SocketIoNetworkConnection
     });
   }
 
-  private requestServerPort() {
+  public requestServerPort() {
     debug("Sending server port request");
 
     this.socket.emit(
@@ -47,6 +47,8 @@ export default class SocketIoNetworkConnection
       (ip: string) => {
         debug(`Server created on ${ip}`);
         this.ip = ip;
+
+        this.client.triggerUpdate();
       }
     );
   }

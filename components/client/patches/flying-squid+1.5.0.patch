@@ -1,5 +1,5 @@
 diff --git a/node_modules/flying-squid/src/lib/plugins/log.js b/node_modules/flying-squid/src/lib/plugins/log.js
-index 642379e..1640a9c 100644
+index 642379e..687939f 100644
 --- a/node_modules/flying-squid/src/lib/plugins/log.js
 +++ b/node_modules/flying-squid/src/lib/plugins/log.js
 @@ -1,19 +1,6 @@
@@ -23,7 +23,7 @@ index 642379e..1640a9c 100644
  module.exports.server = function (serv, settings) {
    serv.on('error', error => serv.err('Server: ' + error.stack))
    serv.on('clientError', (client, error) => serv.err('Client ' + client.socket.remoteAddress + ':' + client.socket.remotePort + ' : ' + error.stack))
-@@ -25,16 +12,9 @@ module.exports.server = function (serv, settings) {
+@@ -25,16 +12,11 @@ module.exports.server = function (serv, settings) {
  
    serv.on('seed', (seed) => serv.log('Seed: ' + seed))
  
@@ -32,6 +32,8 @@ index 642379e..1640a9c 100644
    serv.log = message => {
 -    readline.cursorTo(process.stdout, 0)
      message = moment().format('MMMM Do YYYY, HH:mm:ss') + ' ' + message
++
++    serv.emit('log', message);
      if (!settings.noConsoleOutput) console.log(message)
 -    if (!settings.logging) return
 -    fs.appendFile(logFile, message + '\n', (err) => {
@@ -40,7 +42,7 @@ index 642379e..1640a9c 100644
    }
  
    serv.info = message => {
-@@ -49,41 +29,8 @@ module.exports.server = function (serv, settings) {
+@@ -49,41 +31,8 @@ module.exports.server = function (serv, settings) {
      serv.log('[' + colors.yellow('WARN') + ']: ' + message)
    }
  

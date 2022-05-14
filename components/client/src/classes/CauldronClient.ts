@@ -1,35 +1,53 @@
-import FlyingSquidWrapper, {
-  CauldronConfig,
-} from "./minecraftServer/FlyingSquidWrapper";
-import NetworkConnection from "./network/NetworkConnection";
+import FlyingSquidWrapper from "./minecraftServer/FlyingSquidWrapper";
 import SocketIoNetworkConnection from "./network/SocketIoNetworkConnection";
 import debugging from "debug";
+import EventEmitter from "events";
+import { CauldronConfig } from "./minecraftServer/types";
 const debug = debugging("cauldron:CauldronClient");
 
 /**
  * Cauldron frontend client
  * Sets up the server and the network connection to get the server up and running
  */
-export default class CauldronClient {
+export default class CauldronClient extends EventEmitter {
   minecraftServer: FlyingSquidWrapper;
-  networkConnection: NetworkConnection;
+  networkConnection: SocketIoNetworkConnection;
 
-  static instance = new CauldronClient(":3005", {
-    version: "1.13.2",
-    motd: "Hello",
-  });
+  static instance?: CauldronClient;
 
   constructor(serverAddress: string, config: CauldronConfig) {
+    super();
+
     debug("Setting up...");
 
     this.networkConnection = new SocketIoNetworkConnection(
       serverAddress,
-      config
+      config,
+      this
     );
 
     this.minecraftServer = new FlyingSquidWrapper(
       config,
-      this.networkConnection
+      this.networkConnection,
+      this
     );
+  }
+
+  async setupServer() {
+    this.networkConnection.requestServerPort();
+    await this.minecraftServer.setupServer();
+    this.triggerUpdate();
+  }
+
+  static setupOrGetInstance(serverAddress: string, config: CauldronConfig) {
+    if (!this.instance) {
+      this.instance = new CauldronClient(serverAddress, config);
+    }
+
+    return this.instance;
+  }
+
+  triggerUpdate() {
+    this.emit("update");
   }
 }

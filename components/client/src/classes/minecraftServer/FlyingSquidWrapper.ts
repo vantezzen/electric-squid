@@ -5,30 +5,37 @@ import EventEmitter from "events";
 
 import buildInPlugins from "./buildInPlugins";
 import FlyingSquidServerMock from "./FlyingSquidServerMock";
-import NetworkConnection from "../network/NetworkConnection";
 import debugging from "debug";
+import CauldronClient from "../CauldronClient";
+import SocketIoNetworkConnection from "../network/SocketIoNetworkConnection";
+import Logger from "./Logger";
+import { CauldronConfig, FlyingSquidConfig, Player } from "./types";
 const debug = debugging("cauldron:FlyingSquidServerMock");
-
-export type CauldronConfig = {
-  version: string;
-  motd: string;
-};
-export type FlyingSquidConfig = {
-  [key: string]: any;
-};
 
 /**
  * Replacement for the flying squid initializer (https://github.com/PrismarineJS/flying-squid/blob/master/src/index.js)
  */
 export default class FlyingSquidWrapper extends EventEmitter {
-  private version?: any;
+  public version?: any;
   public commands = new Command({});
   public pluginInstances: { [key: string]: any } = {};
   public _server?: FlyingSquidServerMock;
   public config: FlyingSquidConfig;
+  public logger: Logger;
 
-  constructor(config: CauldronConfig, public network: NetworkConnection) {
+  public status = "Not set up yet";
+  public isSetUp = false;
+  public isSettingUp = false;
+  public players: Player[] = [];
+
+  constructor(
+    config: CauldronConfig,
+    public network: SocketIoNetworkConnection,
+    private readonly client: CauldronClient
+  ) {
     super();
+
+    this.logger = new Logger(client);
 
     debug("Initializing FlyingSquidWrapper");
 
@@ -58,11 +65,14 @@ export default class FlyingSquidWrapper extends EventEmitter {
       port: 25565,
       ...config,
     };
-
-    this.setupServer();
   }
 
   async setupServer() {
+    this.isSettingUp = true;
+    this.setStatus("Setting up server...");
+
+    this.addLogMessagesToLogger();
+
     await this.ensureWorldFolderExists();
     this.version = await this.getVersionInfo();
     this._server = new FlyingSquidServerMock(this);
@@ -73,6 +83,16 @@ export default class FlyingSquidWrapper extends EventEmitter {
     this._server.on("error", (error) => this.emit("error", error));
     this.emit("asap");
     this.emit("listening", this.config.port);
+
+    this.isSetUp = true;
+    this.isSettingUp = false;
+    this.setStatus("Setup done");
+  }
+
+  private addLogMessagesToLogger() {
+    this.on("log", (message) => {
+      this.logger.addLogMessage(message);
+    });
   }
 
   private ensureWorldFolderExists() {
@@ -93,7 +113,8 @@ export default class FlyingSquidWrapper extends EventEmitter {
     for (const pluginNameString in buildInPlugins) {
       const pluginName = pluginNameString as keyof typeof buildInPlugins;
       const loadPlugin = buildInPlugins[pluginName];
-      debug(`Loading plugin ${pluginName}`);
+      debug(`Loading plugin "${pluginName}"`);
+      this.setStatus(`Loading plugin "${pluginName}"`);
 
       const plugin = await loadPlugin();
       this.pluginInstances[pluginName] = plugin;
@@ -102,6 +123,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
       }
     }
     debug("All plugins loaded");
+    this.setStatus("All plugins loaded");
   }
 
   public supportFeature(feature: any) {
@@ -111,5 +133,10 @@ export default class FlyingSquidWrapper extends EventEmitter {
     if (feature === "theFlattening") return true;
 
     return supportFeature(feature, this.version.majorVersion);
+  }
+
+  public setStatus(status: string) {
+    this.status = status;
+    this.client.triggerUpdate();
   }
 }
