@@ -1,6 +1,6 @@
-# Cauldron.js Proxy Server
+# electric-squid Proxy Server
 
-This directory hosts the code for the Cauldron.js Proxy Server. This proxy enables communication between the browser and Minecraft clients by opening a network port and translating the Minecraft protocol.
+This directory hosts the code for the electric-squid Proxy Server. This proxy enables communication between the browser and Minecraft clients by opening a network port and translating the Minecraft protocol.
 
 ## Installation
 

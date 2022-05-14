@@ -2,20 +2,20 @@ import FlyingSquidWrapper from "./minecraftServer/FlyingSquidWrapper";
 import SocketIoNetworkConnection from "./network/SocketIoNetworkConnection";
 import debugging from "debug";
 import EventEmitter from "events";
-import { CauldronConfig } from "./minecraftServer/types";
-const debug = debugging("cauldron:CauldronClient");
+import { SquidConfig } from "./minecraftServer/types";
+const debug = debugging("squid:SquidClient");
 
 /**
- * Cauldron frontend client
+ * electric-squid frontend client
  * Sets up the server and the network connection to get the server up and running
  */
-export default class CauldronClient extends EventEmitter {
+export default class SquidClient extends EventEmitter {
   minecraftServer: FlyingSquidWrapper;
   networkConnection: SocketIoNetworkConnection;
 
-  static instance?: CauldronClient;
+  static instance?: SquidClient;
 
-  constructor(serverAddress: string, config: CauldronConfig) {
+  constructor(serverAddress: string, config: SquidConfig) {
     super();
 
     debug("Setting up...");
@@ -39,9 +39,9 @@ export default class CauldronClient extends EventEmitter {
     this.triggerUpdate();
   }
 
-  static setupOrGetInstance(serverAddress: string, config: CauldronConfig) {
+  static setupOrGetInstance(serverAddress: string, config: SquidConfig) {
     if (!this.instance) {
-      this.instance = new CauldronClient(serverAddress, config);
+      this.instance = new SquidClient(serverAddress, config);
     }
 
     return this.instance;

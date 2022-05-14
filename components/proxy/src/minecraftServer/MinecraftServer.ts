@@ -1,7 +1,7 @@
 import MinecraftProtocol from "minecraft-protocol";
 import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
 import debugging from "debug";
-const debug = debugging("cauldron:MinecraftServer");
+const debug = debugging("squid:MinecraftServer");
 
 export default class MinecraftServer {
   private server: MinecraftProtocol.Server;
@@ -12,7 +12,7 @@ export default class MinecraftServer {
     private readonly frontendNetworkServer: FrontendNetworkServer,
     private readonly port: number = 3000,
     version: string = "1.18.2",
-    motd: string = "A cauldron server"
+    motd: string = "An electric squid server"
   ) {
     debug(`Setting up on port ${port} with version ${version}`);
 
@@ -138,7 +138,7 @@ export default class MinecraftServer {
       if (typeof dataItem === "object" && "protocolState" in dataItem) {
         const player = dataItem as MinecraftProtocol.ServerClient;
         finalMessageData.push({
-          CAULDRON_TYPE: "player",
+          SQUID_TYPE: "player",
           id: player.id,
           uuid: player.uuid,
           username: player.username,

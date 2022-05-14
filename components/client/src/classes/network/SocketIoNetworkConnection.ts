@@ -1,9 +1,9 @@
 import SocketIo, { Socket } from "socket.io-client";
 import EventEmitter from "events";
 import debugging from "debug";
-import CauldronClient from "../CauldronClient";
-import { CauldronConfig } from "../minecraftServer/types";
-const debug = debugging("cauldron:NetworkConnection");
+import SquidClient from "../SquidClient";
+import { SquidConfig } from "../minecraftServer/types";
+const debug = debugging("squid:NetworkConnection");
 
 export default class SocketIoNetworkConnection extends EventEmitter {
   socket: Socket;
@@ -11,8 +11,8 @@ export default class SocketIoNetworkConnection extends EventEmitter {
 
   constructor(
     serverAddress: string,
-    private readonly config: CauldronConfig,
-    private readonly client: CauldronClient
+    private readonly config: SquidConfig,
+    private readonly client: SquidClient
   ) {
     super();
 

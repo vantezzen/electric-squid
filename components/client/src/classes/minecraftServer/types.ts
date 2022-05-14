@@ -1,7 +1,7 @@
 import { Item, Window } from "minecraft-data";
 import ServerClientMock from "./ServerClientMock";
 
-export type CauldronConfig = {
+export type SquidConfig = {
   version: string;
   motd: string;
 };

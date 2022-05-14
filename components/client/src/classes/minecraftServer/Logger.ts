@@ -1,9 +1,9 @@
-import CauldronClient from "../CauldronClient";
+import SquidClient from "../SquidClient";
 
 export default class Logger {
   public messages: string[] = [];
 
-  constructor(private readonly client: CauldronClient) {}
+  constructor(private readonly client: SquidClient) {}
 
   public addLogMessage(message: string) {
     this.messages.push(message);

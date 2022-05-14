@@ -6,11 +6,11 @@ import EventEmitter from "events";
 import buildInPlugins from "./buildInPlugins";
 import FlyingSquidServerMock from "./FlyingSquidServerMock";
 import debugging from "debug";
-import CauldronClient from "../CauldronClient";
+import SquidClient from "../SquidClient";
 import SocketIoNetworkConnection from "../network/SocketIoNetworkConnection";
 import Logger from "./Logger";
-import { CauldronConfig, FlyingSquidConfig, Player } from "./types";
-const debug = debugging("cauldron:FlyingSquidServerMock");
+import { SquidConfig, FlyingSquidConfig, Player } from "./types";
+const debug = debugging("squid:FlyingSquidServerMock");
 
 /**
  * Replacement for the flying squid initializer (https://github.com/PrismarineJS/flying-squid/blob/master/src/index.js)
@@ -29,9 +29,9 @@ export default class FlyingSquidWrapper extends EventEmitter {
   public players: Player[] = [];
 
   constructor(
-    config: CauldronConfig,
+    config: SquidConfig,
     public network: SocketIoNetworkConnection,
-    private readonly client: CauldronClient
+    private readonly client: SquidClient
   ) {
     super();
 

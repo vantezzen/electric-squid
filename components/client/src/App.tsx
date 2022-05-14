@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import CauldronClient from "./classes/CauldronClient";
+import SquidClient from "./classes/SquidClient";
 
 function App() {
-  const [game] = useState<CauldronClient | null>(() => {
+  const [game] = useState<SquidClient | null>(() => {
     console.log("setting up game");
 
-    return CauldronClient.setupOrGetInstance(":3005", {
+    return SquidClient.setupOrGetInstance(":3005", {
       version: "1.13.2",
       motd: "Hello",
     });

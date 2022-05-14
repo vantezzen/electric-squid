@@ -3,7 +3,7 @@ import SocketIoFrontendNetworkServer from "./frontendNetworking/SocketIoFrontend
 import MinecraftServerFactory from "./minecraftServer/MinecraftServerFactory";
 import MinecraftServerManager from "./minecraftServer/MinecraftServerManager";
 
-export default class CauldronProxy {
+export default class SquidProxy {
   private readonly frontendNetworkServer: FrontendNetworkServer;
   private readonly serverFactory: MinecraftServerFactory;
   private readonly minecraftServerManager: MinecraftServerManager;

@@ -5,7 +5,7 @@ import MinecraftServerManager from "../minecraftServer/MinecraftServerManager";
 
 import FrontendNetworkServer from "./FrontendNetworkServer";
 
-const debug = require("debug")("cauldron:proxy:FrontendNetworkServer");
+const debug = require("debug")("squid:proxy:FrontendNetworkServer");
 
 export default class SocketIoFrontendNetworkServer
   implements FrontendNetworkServer

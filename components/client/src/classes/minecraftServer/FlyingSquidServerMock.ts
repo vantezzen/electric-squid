@@ -3,7 +3,7 @@ import MinecraftProtocol from "minecraft-protocol";
 import FlyingSquidWrapper from "./FlyingSquidWrapper";
 import debugging from "debug";
 import ServerClientMock from "./ServerClientMock";
-const debug = debugging("cauldron:FlyingSquidServerMock");
+const debug = debugging("squid:FlyingSquidServerMock");
 
 /**
  * Mock of the minecraft-protocol server (https://github.com/PrismarineJS/node-minecraft-protocol/blob/master/src/server.js)
@@ -33,7 +33,7 @@ export default class FlyingSquidServerMock extends EventEmitter {
   private decodeMessageData(messageData: any[]) {
     const finalMessageData = [];
     for (const dataItem of messageData) {
-      if (typeof dataItem === "object" && "CAULDRON_TYPE" in dataItem) {
+      if (typeof dataItem === "object" && "SQUID_TYPE" in dataItem) {
         debug("Creating mock item for server client", dataItem);
 
         const player = new ServerClientMock(

@@ -1,10 +1,10 @@
 {
-  "name": "cauldron-js-proxy",
+  "name": "electric-squid-proxy",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "DEBUG=cauldron*,minecraft-protocol* ts-node src/main.ts"
+    "start": "DEBUG=squid*,minecraft-protocol* ts-node src/main.ts"
   },
   "author": "",
   "license": "MIT",

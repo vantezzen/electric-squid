@@ -8,9 +8,9 @@ import { supportedVersions } from "minecraft-protocol";
 import FlyingSquidServerMock from "./FlyingSquidServerMock";
 import NetworkConnection from "../network/NetworkConnection";
 
-const debug = require("debug")("cauldron:FlyingSquidWrapper");
+const debug = require("debug")("squid:FlyingSquidWrapper");
 
-export type CauldronConfig = {
+export type SquidConfig = {
   version: string;
   motd: string;
   port: number;
@@ -24,10 +24,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
   public commands = new Command({});
   public _server = new FlyingSquidServerMock(this);
 
-  constructor(
-    public config: CauldronConfig,
-    public network: NetworkConnection
-  ) {
+  constructor(public config: SquidConfig, public network: NetworkConnection) {
     super();
 
     debug("Initializing FlyingSquidWrapper");

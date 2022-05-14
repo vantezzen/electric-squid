@@ -1,7 +1,7 @@
 import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
 import MinecraftServer from "./MinecraftServer";
 import debugging from "debug";
-const debug = debugging("cauldron:MinecraftServerFactory");
+const debug = debugging("squid:proxy:MinecraftServerFactory");
 
 export default class MinecraftServerFactory {
   constructor(private frontendNetworkServer: FrontendNetworkServer) {}
