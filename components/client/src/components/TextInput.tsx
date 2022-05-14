@@ -18,10 +18,10 @@ function TextInput({
   [key: string]: any;
 }) {
   return (
-    <div className={`flex flex-col items-center ${className}`}>
+    <div className={`text-left mb-3 ${className}`}>
       <label className="text-sm text-slate-600">{label}</label>
       <input
-        className="w-full p-2 border border-gray-400 rounded"
+        className="w-full p-2 border border-gray-300 rounded"
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}

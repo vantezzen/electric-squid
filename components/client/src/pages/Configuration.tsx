@@ -4,20 +4,56 @@ import Button from "../components/Button";
 import Center from "../components/Center";
 import PageHeader from "../components/PageHeader";
 import PageLayout from "../components/PageLayout";
+import Select from "../components/Select";
 import SubText from "../components/SubText";
+import TextInput from "../components/TextInput";
+import { VERSIONS } from "../config";
 
-function Configuration({ game }: { game: SquidClient }) {
+function Configuration({
+  game,
+  setGame,
+}: {
+  game: SquidClient | null;
+  setGame: (game: SquidClient) => void;
+}) {
+  const [version, setVersion] = React.useState(VERSIONS[0]);
+  const [motd, setMotd] = React.useState("An electric-squid server");
+
+  const setupServer = () => {
+    const server = SquidClient.setupOrGetInstance(":3005", {
+      version,
+      motd,
+    });
+    server.setupServer();
+
+    setGame(server);
+  };
+
   return (
     <PageLayout>
       <Center>
         <img src="/src/logo.png" alt="electric squid logo" className="w-24" />
       </Center>
-      <PageHeader>electric squid</PageHeader>
+      <PageHeader>electric-squid</PageHeader>
       <SubText className="text-center mt-3 mb-5">
-        Minecraft 1.13.2 Server in the browser
+        Minecraft Server in the browser
       </SubText>
 
-      <Button onClick={() => game.setupServer()}>Start server</Button>
+      <Select
+        label="Minecraft Version"
+        value={version}
+        onChange={(value) => setVersion(value)}
+        options={VERSIONS}
+      />
+
+      <TextInput
+        label="MOTD"
+        value={motd}
+        onChange={(value) => setMotd(value)}
+        placeholder="An electric-squid server"
+      />
+
+      <Button onClick={setupServer}>Start server</Button>
     </PageLayout>
   );
 }
