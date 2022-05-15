@@ -15,9 +15,11 @@ electric-squid's functionality is currently very limited:
 - [x] Create Proxy Server
 - [x] Create basic flying-squid wrapper
 - [x] Allow changing version and MOTD
-- [ ] Send player positions to other players
+- [x] Send player positions to other players
 - [ ] Send block place/dig to other players
-- [ ] Support player disconnect
+- [ ] Support saving changes to the world
+- [ ] Allow changing world generation
+- [x] Support player disconnect
 
 ## Documentation
 

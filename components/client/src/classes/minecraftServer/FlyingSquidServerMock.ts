@@ -24,8 +24,21 @@ export default class FlyingSquidServerMock extends EventEmitter {
       "player-event",
       (eventName: string, ...data: any[]) => {
         debug(`Received player event: ${eventName}`, data);
+        const packetData = this.decodeMessageData(data);
 
-        this.emit(eventName, ...this.decodeMessageData(data));
+        this.emit(eventName, ...packetData);
+        const playerEntity = this.wrapper.players.find(
+          (player) => player.uuid === data[0].uuid
+        );
+        if (playerEntity) {
+          debug(
+            `Emitting player event ${eventName} to player ${playerEntity.username}`,
+            packetData
+          );
+          playerEntity._client.emit(eventName, ...packetData.slice(1));
+        } else {
+          debug(`Could not find player with id ${data[0].uuid}`);
+        }
       }
     );
   }

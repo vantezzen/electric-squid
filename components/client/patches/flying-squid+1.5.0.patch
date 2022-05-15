@@ -1,3 +1,25 @@
+diff --git a/node_modules/flying-squid/src/lib/playerDat.js b/node_modules/flying-squid/src/lib/playerDat.js
+index cec32a7..0c44a2c 100644
+--- a/node_modules/flying-squid/src/lib/playerDat.js
++++ b/node_modules/flying-squid/src/lib/playerDat.js
+@@ -88,7 +88,7 @@ async function save (player, worldFolder, snakeCase) {
+       newUncompressedData.value.Inventory.value.value = playerInventoryToNBT(player.inventory)
+ 
+       const newDataCompressed = await gzip(nbt.writeUncompressed(newUncompressedData))
+-      fs.writeFileSync(`${worldFolder}/playerdata/${player.uuid}.dat`, newDataCompressed)
++      await fs.promises.writeFile(`${worldFolder}/playerdata/${player.uuid}.dat`, newDataCompressed)
+     } catch (e) {
+       // Get UUIDMost & UUIDLeast. mc-uuid-converter Copyright (c) 2020 Sol Toder https://github.com/AjaxGb/mc-uuid-converter under MIT License.
+       const uuidBytes = new Uint8Array(16)
+@@ -435,7 +435,7 @@ async function save (player, worldFolder, snakeCase) {
+ 
+       const newDataCompressed = await gzip(nbt.writeUncompressed(newUncompressedData))
+       await fs.promises.mkdir(`${worldFolder}/playerdata/`, { recursive: true })
+-      fs.writeFileSync(`${worldFolder}/playerdata/${player.uuid}.dat`, newDataCompressed)
++      await fs.promises.writeFile(`${worldFolder}/playerdata/${player.uuid}.dat`, newDataCompressed)
+     }
+   }
+ }
 diff --git a/node_modules/flying-squid/src/lib/plugins/log.js b/node_modules/flying-squid/src/lib/plugins/log.js
 index 642379e..687939f 100644
 --- a/node_modules/flying-squid/src/lib/plugins/log.js

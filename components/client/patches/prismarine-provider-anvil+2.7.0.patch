@@ -17,3 +17,20 @@ index c2685b0..d16d6ff 100644
    const ChunkSection = require('prismarine-chunk')(mcVersion).section
  
    return (Chunk, mcData) => {
+diff --git a/node_modules/prismarine-provider-anvil/src/anvil.js b/node_modules/prismarine-provider-anvil/src/anvil.js
+index 47da8cf..3205060 100644
+--- a/node_modules/prismarine-provider-anvil/src/anvil.js
++++ b/node_modules/prismarine-provider-anvil/src/anvil.js
+@@ -41,8 +41,10 @@ module.exports = (mcVersion) => {
+ 
+     // returns a Promise. Resolve an empty object when successful
+     async save (x, z, chunk) {
+-      const tag = prismarineChunkToNbt(chunk, x, z)
+-      await this.saveRaw(x, z, tag)
++      if (chunk) {
++        const tag = prismarineChunkToNbt(chunk, x, z)
++        await this.saveRaw(x, z, tag)
++      }
+     }
+ 
+     async saveRaw (x, z, nbt) {

@@ -34,6 +34,7 @@ export type Player = {
   effects: {
     [key: number]: any | null;
   };
+  emit: (eventName: string, ...data: any[]) => any;
   food: number;
   gameMode: number;
   getData: (pluginName: string) => any;
