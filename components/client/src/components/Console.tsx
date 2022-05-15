@@ -9,7 +9,10 @@ function Console({ game }: { game: SquidClient }) {
     <>
       <pre
         className="text-white font-mono bg-slate-900 text-left p-5 rounded mb-5"
-        style={{ minHeight: "40vh" }}
+        style={{
+          height: "40vh",
+          overflow: "scroll",
+        }}
       >
         {game?.minecraftServer.logger.messages.join("\n")}
       </pre>
