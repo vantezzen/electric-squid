@@ -9,6 +9,7 @@
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
 import SquidProxy from "./SquidProxy";
+import "dotenv/config";
 
 console.log("Starting electric-squid proxy server...");
 

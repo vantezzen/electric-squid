@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "clear-vite-cache": "[ ! -e node_modules/.vite ] || rm -r node_modules/.vite",
     "postinstall": "node scripts/fixMinecraftDataDependencies.js && patch-package && npm run clear-vite-cache"
@@ -13,12 +13,14 @@
     "@types/debug": "^4.1.7",
     "@types/events": "^3.0.0",
     "@types/node": "^17.0.24",
+    "@types/readable-stream": "^2.3.13",
     "assert": "^2.0.0",
     "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "debug": "^4.3.4",
+    "dotenv": "^16.0.1",
     "events": "^3.3.0",
     "flying-squid": "^1.5.0",
     "minecraft-data": "^2.63.0",

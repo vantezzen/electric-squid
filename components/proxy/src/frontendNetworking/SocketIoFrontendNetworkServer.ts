@@ -1,5 +1,6 @@
 import Express from "express";
 import Http from "http";
+import path from "path";
 import { Server as SocketIoServer, Socket } from "socket.io";
 import MinecraftServerManager from "../minecraftServer/MinecraftServerManager";
 
@@ -16,7 +17,7 @@ export default class SocketIoFrontendNetworkServer
   private serverManager?: MinecraftServerManager;
 
   constructor(
-    private port: number = 3005,
+    private port: number = +process.env.port,
     private hostname: string = "localhost"
   ) {
     debug("Creating new socket.io frontend network server");
@@ -35,6 +36,13 @@ export default class SocketIoFrontendNetworkServer
 
   private setupExpressServer() {
     this.express = Express();
+
+    if (process.env.HOST_FRONTEND == "true") {
+      this.express.use(
+        Express.static(path.resolve(__dirname, "..", "..", "client", "dist"))
+      );
+    }
+
     this.httpServer = Http.createServer(this.express);
     this.httpServer.listen(this.port, () => {
       console.log(`Webserver listening on port ${this.port}`);

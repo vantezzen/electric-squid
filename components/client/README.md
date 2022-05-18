@@ -7,12 +7,19 @@ This folder hosts the frontend for electric squid.
 ## Installation
 
 1. Clone the repository
-2. Open a terminal in this directory (`cd components/clients`)
-3. Install the node dependencies via `npm install`
-4. After the installation, npm should have already executed the "postinstall" hook. If it hasn't, run `npm run postinstall` manually
-5. You can now start the frontend via `npm start` or build using `npm run build`
+2. Copy ".env.example" to ".env" and customize its contents
+3. Open a terminal in this directory (`cd components/clients`)
+4. Install the node dependencies via `npm install`
+5. After the installation, npm should have already executed the "postinstall" hook. If it hasn't, run `npm run postinstall` manually
+6. You can now start the frontend via `npm start` or build using `npm run build`
 
 Make sure to have the proxy started on the same machine
+
+## Building
+
+You can build the frontend using "npm run build", which will create static output files in "./dist".
+
+Please note that due to the large size of flying-squid and its dependencies, this requires a large amount of RAM. By default the build scripts has an increased RAM cap of 16GB, which should work.
 
 ## Dependency patching
 
