@@ -19,8 +19,6 @@ Make sure to have the proxy started on the same machine
 
 You can build the frontend using "npm run build", which will create static output files in "./dist".
 
-Please note that due to the large size of flying-squid and its dependencies, this requires a large amount of RAM. By default the build scripts has an increased RAM cap of 16GB, which should work.
-
 ## Dependency patching
 
 flying-squid and its dependencies and not optimized to run in a browser and thus use some NodeJS-only features. To enable these packages to run in the browser, electric-squid unfortunately needs to use of a lot of manual patching.

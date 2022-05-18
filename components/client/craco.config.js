@@ -1,14 +1,7 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import * as path from "path";
+const path = require(`path`);
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    target: "esnext",
-  },
-  resolve: {
+module.exports = {
+  webpack: {
     alias: {
       process: "process/browser",
       stream: "stream-browserify",
@@ -20,4 +13,4 @@ export default defineConfig({
       path: "path-browserify",
     },
   },
-});
+};
