@@ -40,7 +40,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "clear-webpack-cache": "[ ! -e node_modules/.cache ] || rm -r node_modules/.cache",
+    "postinstall": "node scripts/fixMinecraftDataDependencies.js && patch-package && npm run clear-webpack-cache"
   },
   "eslintConfig": {
     "extends": [
