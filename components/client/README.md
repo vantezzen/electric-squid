@@ -13,7 +13,7 @@ This folder hosts the frontend for electric squid.
 5. After the installation, npm should have already executed the "postinstall" hook. If it hasn't, run `npm run postinstall` manually
 6. You can now start the frontend via `npm start` or build using `npm run build`
 
-Make sure to have the proxy started on the same machine
+Make sure to have the proxy started on the same machine. The first start might be slower as webpack will need to build the dependencies.
 
 ## Building
 
