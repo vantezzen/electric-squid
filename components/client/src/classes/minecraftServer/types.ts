@@ -1,9 +1,20 @@
 import { Item, Window } from "minecraft-data";
 import ServerClientMock from "./ServerClientMock";
 
+export const GenerationTypes = [
+  "grass_field",
+  "diamond_square",
+  "empty",
+  "superflat",
+  "all_the_blocks",
+  "nether",
+] as const;
+export type GenerationType = typeof GenerationTypes[number];
+
 export type SquidConfig = {
   version: string;
   motd: string;
+  worldGeneration: GenerationType;
 };
 export type FlyingSquidConfig = {
   [key: string]: any;

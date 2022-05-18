@@ -3,7 +3,7 @@ import { promisify } from "util";
 import PromiseFsFile from "./PromiseFile";
 
 const fsOpen = promisify(fs.open);
-const fsExists = promisify(fs.exists);
+const fsStat = promisify(fs.stat);
 const fsMkdir = promisify(fs.mkdir);
 
 export default {
@@ -14,19 +14,11 @@ export default {
   stat: promisify(fs.stat),
   readFile: promisify(fs.readFile),
   writeFile: promisify(fs.writeFile),
-  mkdir: async (...args: any[]) => {
-    return true;
-
-    let exists = false;
+  mkdir: async (folder: string) => {
     try {
-      exists = await fsExists(args[0]);
-    } catch (e) {
-      console.log("fs.exists error", e);
+      await fsStat(folder);
+    } catch (err) {
+      await fsMkdir(folder, { recursive: true });
     }
-
-    if (!exists) {
-      return await fsMkdir(...args);
-    }
-    return true;
   },
 };

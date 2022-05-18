@@ -4,9 +4,10 @@
 
 A wrapper and proxy to let [flying-squid](https://github.com/PrismarineJS/flying-squid) run in the browser.
 
-electric-squid-proxy (in components/proxy) creates a light NodeJS proxy Minecraft server that translates game packages into WebSocket packages and sends them to connected WebSocket clients.
+electric-squid consists of two components:
 
-electric-squid-frontend (in components/client) creates a wrapper and minimal React frontend to enable [flying-squid](https://github.com/PrismarineJS/flying-squid) to run in the browser instead of on a CLI.
+- electric-squid-proxy (in components/proxy) creates a light NodeJS proxy Minecraft server that translates game packages into WebSocket packages and sends them to connected WebSocket clients.
+- electric-squid-frontend (in components/client) creates a wrapper and minimal React frontend to enable [flying-squid](https://github.com/PrismarineJS/flying-squid) to run in the browser instead of on a CLI.
 
 ## Progress
 

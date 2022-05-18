@@ -2,8 +2,11 @@ import fs from "browserify-fs";
 import { promisify } from "util";
 
 const writeAsync = promisify(fs.write);
-const readAsync = promisify(fs.read);
 
+/**
+ * A file instance as created by the `fs.open` method.
+ * This only contains the minimal methods flying-squid needs to function
+ */
 export default class PromiseFsFile {
   constructor(public fileHandle: number) {}
 

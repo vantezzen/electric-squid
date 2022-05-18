@@ -3,6 +3,26 @@ import FrontendNetworkServer from "../frontendNetworking/FrontendNetworkServer";
 import debugging from "debug";
 const debug = debugging("squid:MinecraftServer");
 
+const PROXIED_EVENTS = [
+  "packet",
+  "end",
+  "look",
+  "position_look",
+  "position",
+  "tab_complete",
+  "held_item_slot",
+  "close_window",
+  "arm_animation",
+  "entity_action",
+  "client_command",
+  "chat",
+  "settings",
+  "use_entity",
+  "block_place",
+  "block_dig",
+  "flying",
+];
+
 export default class MinecraftServer {
   private server: MinecraftProtocol.Server;
   private clients = new Map<number, MinecraftProtocol.ServerClient>();
@@ -69,22 +89,7 @@ export default class MinecraftServer {
     );
     this.clients.set(client.id, client);
 
-    for (const event of [
-      "packet",
-      "end",
-      "look",
-      "position_look",
-      "tab_complete",
-      "held_item_slot",
-      "close_window",
-      "arm_animation",
-      "entity_action",
-      "client_command",
-      "chat",
-      "settings",
-      "use_entity",
-      "block_place",
-    ]) {
+    for (const event of PROXIED_EVENTS) {
       client.on(event, this.sendPlayerEventToFrontend(event, client));
     }
 

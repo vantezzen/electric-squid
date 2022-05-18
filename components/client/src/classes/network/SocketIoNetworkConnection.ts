@@ -3,6 +3,7 @@ import EventEmitter from "events";
 import debugging from "debug";
 import SquidClient from "../SquidClient";
 import { SquidConfig } from "../minecraftServer/types";
+import { EXTENDED_DEBUGGING, shouldDebugPacket } from "../../config";
 const debug = debugging("squid:NetworkConnection");
 
 export default class SocketIoNetworkConnection extends EventEmitter {
@@ -57,11 +58,17 @@ export default class SocketIoNetworkConnection extends EventEmitter {
     debug("Registering game event listeners");
 
     this.socket.on("game-event", (...data: any[]) => {
-      debug("Received game event", data);
+      if (EXTENDED_DEBUGGING) {
+        debug("Received game event", data);
+      }
+
       this.emit("game-event", ...data);
     });
     this.socket.on("player-event", (...data: any[]) => {
-      debug("Received player event", data);
+      if (EXTENDED_DEBUGGING) {
+        debug("Received player event", data);
+      }
+
       this.emit("player-event", ...data);
     });
   }
@@ -71,7 +78,10 @@ export default class SocketIoNetworkConnection extends EventEmitter {
     packageType: string,
     packageData: any
   ): void {
-    debug(`Sending package to client ${clientId}`, packageType, packageData);
+    if (shouldDebugPacket(packageType)) {
+      debug(`Sending package to client ${clientId}`, packageType, packageData);
+    }
+
     this.socket.emit(
       "send minecraft package",
       clientId,

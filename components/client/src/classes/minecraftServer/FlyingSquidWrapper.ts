@@ -10,6 +10,7 @@ import SquidClient from "../SquidClient";
 import SocketIoNetworkConnection from "../network/SocketIoNetworkConnection";
 import Logger from "./Logger";
 import { SquidConfig, FlyingSquidConfig, Player } from "./types";
+import { EXTENDED_DEBUGGING } from "../../config";
 const debug = debugging("squid:FlyingSquidServerMock");
 
 /**
@@ -39,7 +40,11 @@ export default class FlyingSquidWrapper extends EventEmitter {
 
     debug("Initializing FlyingSquidWrapper");
 
-    this.config = {
+    this.config = this.getDefaultConfig(config);
+  }
+
+  private getDefaultConfig(overrides: Partial<SquidConfig>): FlyingSquidConfig {
+    return {
       "max-players": 10,
       "online-mode": false,
       logging: true,
@@ -47,7 +52,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
       difficulty: 1,
       worldFolder: "world",
       generation: {
-        name: "diamond_square",
+        name: overrides.worldGeneration ?? "diamond_square",
         options: {
           worldHeight: 80,
         },
@@ -63,7 +68,7 @@ export default class FlyingSquidWrapper extends EventEmitter {
       "everybody-op": true,
       "max-entities": 100,
       port: 25565,
-      ...config,
+      ...overrides,
     };
   }
 
@@ -77,16 +82,22 @@ export default class FlyingSquidWrapper extends EventEmitter {
     this.version = await this.getVersionInfo();
     this._server = new FlyingSquidServerMock(this);
 
-    this.checkIfVersionIsSupportedOrThrow();
     await this.setupPlugins();
+    this.setupEventSystem();
 
-    this._server.on("error", (error) => this.emit("error", error));
-    this.emit("asap");
-    this.emit("listening", this.config.port);
+    this.sendSetupCompleteSignals();
+  }
 
+  private sendSetupCompleteSignals() {
     this.isSetUp = true;
     this.isSettingUp = false;
     this.setStatus("Setup done");
+  }
+
+  private setupEventSystem() {
+    this._server!.on("error", (error) => this.emit("error", error));
+    this.emit("asap");
+    this.emit("listening", this.config.port);
   }
 
   private addLogMessagesToLogger() {
@@ -104,33 +115,34 @@ export default class FlyingSquidWrapper extends EventEmitter {
   }
 
   private async getVersionInfo() {
+    // Currently always using 1.16 version infos as they are compatible with older versions too
     return import(`minecraft-data/minecraft-data/data/pc/1.16/version.json`);
   }
 
-  private checkIfVersionIsSupportedOrThrow() {}
-
   private async setupPlugins() {
     for (const pluginNameString in buildInPlugins) {
-      const pluginName = pluginNameString as keyof typeof buildInPlugins;
-      const loadPlugin = buildInPlugins[pluginName];
-      debug(`Loading plugin "${pluginName}"`);
-      this.setStatus(`Loading plugin "${pluginName}"`);
-
-      const plugin = await loadPlugin();
-      this.pluginInstances[pluginName] = plugin;
-      if (plugin.server) {
-        plugin.server(this, this.config);
-      }
+      await this.setupPlugin(pluginNameString as keyof typeof buildInPlugins);
     }
     debug("All plugins loaded");
     this.setStatus("All plugins loaded");
   }
 
-  public supportFeature(feature: any) {
-    debug(`Supporting feature ${feature}`);
+  private async setupPlugin(pluginName: keyof typeof buildInPlugins) {
+    const loadPluginFunction = buildInPlugins[pluginName];
+    debug(`Loading plugin "${pluginName}"`);
+    this.setStatus(`Loading plugin "${pluginName}"`);
 
-    // Fixes a problem in the portal plugin that tries to use a non-existent block
-    if (feature === "theFlattening") return true;
+    const plugin = await loadPluginFunction();
+    this.pluginInstances[pluginName] = plugin;
+    if (plugin.server) {
+      plugin.server(this, this.config);
+    }
+  }
+
+  public supportFeature(feature: any) {
+    if (EXTENDED_DEBUGGING) {
+      debug(`Checking if feature "${feature}" is supported`);
+    }
 
     return supportFeature(feature, this.version.majorVersion);
   }

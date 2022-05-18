@@ -18,9 +18,11 @@ function Running({ game }: { game: SquidClient }) {
         </Fact>
 
         <Fact title="Players">
-          {game?.minecraftServer.players
-            .map((player) => player.username)
-            .join(", ") ?? "No players"}
+          {game?.minecraftServer.players.length
+            ? game?.minecraftServer.players
+                .map((player) => player.username)
+                .join(", ")
+            : "No players"}
         </Fact>
 
         <Fact title="Version">
