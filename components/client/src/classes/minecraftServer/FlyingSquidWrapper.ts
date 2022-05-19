@@ -3,7 +3,7 @@ import Command from "flying-squid/src/lib/command";
 import fs from "fs";
 import EventEmitter from "events";
 
-// import buildInPlugins from "./buildInPlugins";
+import buildInPlugins from "./buildInPlugins";
 import FlyingSquidServerMock from "./FlyingSquidServerMock";
 import debugging from "debug";
 import SquidClient from "../SquidClient";
@@ -12,12 +12,6 @@ import Logger from "./Logger";
 import { SquidConfig, FlyingSquidConfig, Player } from "./types";
 import { EXTENDED_DEBUGGING } from "../../config";
 const debug = debugging("squid:FlyingSquidServerMock");
-
-const buildInPlugins = {
-  test: () => ({
-    server: () => {},
-  }),
-};
 
 /**
  * Replacement for the flying squid initializer (https://github.com/PrismarineJS/flying-squid/blob/master/src/index.js)
@@ -141,7 +135,6 @@ export default class FlyingSquidWrapper extends EventEmitter {
     const plugin = await loadPluginFunction();
     this.pluginInstances[pluginName] = plugin;
     if (plugin.server) {
-      // @ts-ignore
       plugin.server(this, this.config);
     }
   }

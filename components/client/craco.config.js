@@ -1,7 +1,5 @@
 const path = require(`path`);
 
-process.env.GENERATE_SOURCEMAP = "false";
-
 module.exports = {
   webpack: {
     devtool: false,
@@ -9,6 +7,13 @@ module.exports = {
       fs: path.resolve(__dirname, "src", "polyfills", "fs", "index.js"),
       net: path.resolve(__dirname, "src", "polyfills", "net", "index.js"),
       dns: path.resolve(__dirname, "src", "polyfills", "dns", "index.js"),
+      perf_hooks: path.resolve(
+        __dirname,
+        "src",
+        "polyfills",
+        "perf_hooks",
+        "index.js"
+      ),
 
       process: require.resolve("process/browser"),
       stream: require.resolve("stream-browserify"),

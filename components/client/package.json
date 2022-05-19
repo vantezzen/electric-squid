@@ -43,8 +43,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "node --max-old-space-size=12288 node_modules/@craco/craco/bin/craco.js start",
-    "build": "craco build",
+    "start": "craco --max-old-space-size=12288 start",
+    "build": "craco --max-old-space-size=12288 build",
     "test": "craco test",
     "eject": "craco eject",
     "clear-webpack-cache": "[ ! -e node_modules/.cache ] || rm -r node_modules/.cache",
@@ -67,5 +67,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
   }
 }
