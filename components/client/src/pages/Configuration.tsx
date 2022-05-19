@@ -26,11 +26,14 @@ function Configuration({
     React.useState<GenerationType>("diamond_square");
 
   const setupServer = () => {
-    const server = SquidClient.setupOrGetInstance(process.env.PROXY_HOST!, {
-      version,
-      motd,
-      worldGeneration,
-    });
+    const server = SquidClient.setupOrGetInstance(
+      process.env.REACT_APP_PROXY_HOST!,
+      {
+        version,
+        motd,
+        worldGeneration,
+      }
+    );
     server.setupServer();
 
     setGame(server);
@@ -39,7 +42,7 @@ function Configuration({
   return (
     <PageLayout>
       <Center>
-        <img src="/src/logo.png" alt="electric squid logo" className="w-24" />
+        <img src="/logo.png" alt="electric squid logo" className="w-24" />
       </Center>
       <PageHeader>electric-squid</PageHeader>
       <SubText className="text-center mt-3 mb-5">

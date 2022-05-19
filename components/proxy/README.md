@@ -15,4 +15,4 @@ This will create WebSocket server on localhost:3005 and will start hosting Minec
 
 The proxy supports hosting the static build files created by the frontend. To enable this, build the frontend by running "npm run build" in "components/client/" and set "HOST_FRONTEND" to "true" in your ".env"
 
-You can set "PROXY_HOST" to an empty value ("PROXY_HOST=") in the frontend's ".env" file to use the same endpoint.
+You can set "REACT_APP_PROXY_HOST" to an empty value ("REACT_APP_PROXY_HOST=") in the frontend's ".env" file to use the same endpoint.

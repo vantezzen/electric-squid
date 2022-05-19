@@ -25,6 +25,7 @@
     "flying-squid": "^1.5.0",
     "https-browserify": "^1.0.0",
     "minecraft-data": "^2.63.0",
+    "os-browserify": "^0.3.0",
     "patch-package": "^6.4.7",
     "path-browserify": "^1.0.1",
     "process": "^0.11.10",
@@ -38,13 +39,14 @@
     "typescript": "^4.6.4",
     "url": "^0.11.0",
     "util": "^0.12.4",
+    "uuid": "^8.3.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "node --max-old-space-size=12288 node_modules/@craco/craco/bin/craco.js start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "clear-webpack-cache": "[ ! -e node_modules/.cache ] || rm -r node_modules/.cache",
     "postinstall": "node scripts/fixMinecraftDataDependencies.js && patch-package && npm run clear-webpack-cache"
   },

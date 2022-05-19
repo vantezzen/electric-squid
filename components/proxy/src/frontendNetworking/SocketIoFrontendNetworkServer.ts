@@ -17,7 +17,7 @@ export default class SocketIoFrontendNetworkServer
   private serverManager?: MinecraftServerManager;
 
   constructor(
-    private port: number = +process.env.port,
+    private port: number = Number(process.env.PORT!),
     private hostname: string = "localhost"
   ) {
     debug("Creating new socket.io frontend network server");

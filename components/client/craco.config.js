@@ -1,8 +1,15 @@
 const path = require(`path`);
 
+process.env.GENERATE_SOURCEMAP = "false";
+
 module.exports = {
   webpack: {
+    devtool: false,
     alias: {
+      fs: path.resolve(__dirname, "src", "polyfills", "fs", "index.js"),
+      net: path.resolve(__dirname, "src", "polyfills", "net", "index.js"),
+      dns: path.resolve(__dirname, "src", "polyfills", "dns", "index.js"),
+
       process: require.resolve("process/browser"),
       stream: require.resolve("stream-browserify"),
       crypto: require.resolve("crypto-browserify"),
@@ -10,7 +17,6 @@ module.exports = {
       util: require.resolve("util"),
       assert: require.resolve("assert"),
       path: require.resolve("path-browserify"),
-      fs: path.resolve(__dirname, "polyfills", "fs", "index.ts"),
       querystring: require.resolve("querystring-es3"),
       stream: require.resolve("stream-browserify"),
       path: require.resolve("path-browserify"),
@@ -19,6 +25,10 @@ module.exports = {
       url: require.resolve("url"),
       zlib: require.resolve("browserify-zlib"),
       crypto: require.resolve("crypto-browserify"),
+      os: require.resolve("os-browserify/browser"),
+
+      // "uuid-1345" is used by flying-squid but internally uses MAC Addresses which are not available in the browser
+      "uuid-1345": require.resolve("uuid"),
     },
   },
 };

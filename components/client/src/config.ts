@@ -1,5 +1,5 @@
 export const VERSIONS = ["1.16", "1.13", "1.8"];
-export const EXTENDED_DEBUGGING = false;
+export const EXTENDED_DEBUGGING = true;
 export const EXTENDED_DEBUGGING_PACKETS = [
   "unload_chunk",
   "position_look",

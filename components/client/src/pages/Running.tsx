@@ -1,4 +1,5 @@
 import React from "react";
+import { Player } from "../classes/minecraftServer/types";
 import SquidClient from "../classes/SquidClient";
 import Button from "../components/Button";
 import Console from "../components/Console";
@@ -20,7 +21,7 @@ function Running({ game }: { game: SquidClient }) {
         <Fact title="Players">
           {game?.minecraftServer.players.length
             ? game?.minecraftServer.players
-                .map((player) => player.username)
+                .map((player: Player) => player.username)
                 .join(", ")
             : "No players"}
         </Fact>

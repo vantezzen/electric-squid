@@ -8,12 +8,16 @@ const writeAsync = promisify(fs.write);
  * This only contains the minimal methods flying-squid needs to function
  */
 export default class PromiseFsFile {
-  constructor(public fileHandle: number) {}
+  fileHandle = 0;
 
-  write(...data: any[]) {
+  constructor(fileHandle) {
+    this.fileHandle = fileHandle;
+  }
+
+  write(...data) {
     return writeAsync(this.fileHandle, ...data);
   }
-  read(...data: any[]) {
+  read(...data) {
     return new Promise((resolve, reject) => {
       fs.read(this.fileHandle, ...data, (err, bytesRead, buffer) => {
         if (err) reject(err);

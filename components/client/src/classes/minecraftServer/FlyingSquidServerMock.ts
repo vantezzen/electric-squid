@@ -1,5 +1,4 @@
 import EventEmitter from "events";
-import MinecraftProtocol from "minecraft-protocol";
 import FlyingSquidWrapper from "./FlyingSquidWrapper";
 import debugging from "debug";
 import ServerClientMock from "./ServerClientMock";

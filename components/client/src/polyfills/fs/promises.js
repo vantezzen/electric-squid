@@ -6,7 +6,7 @@ const fsOpen = promisify(fs.open);
 const fsStat = promisify(fs.stat);
 const fsMkdir = promisify(fs.mkdir);
 
-export default {
+const promiseFs = {
   open: async (...args) => {
     const fileHandle = await fsOpen(...args);
     return new PromiseFsFile(fileHandle);
@@ -14,7 +14,7 @@ export default {
   stat: promisify(fs.stat),
   readFile: promisify(fs.readFile),
   writeFile: promisify(fs.writeFile),
-  mkdir: async (folder: string) => {
+  mkdir: async (folder) => {
     try {
       await fsStat(folder);
     } catch (err) {
@@ -22,3 +22,4 @@ export default {
     }
   },
 };
+export default promiseFs;
