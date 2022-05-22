@@ -18,7 +18,7 @@ export default class SocketIoFrontendNetworkServer
 
   constructor(
     private port: number = Number(process.env.PORT!),
-    private hostname: string = "localhost"
+    private hostname: string = process.env.HOSTNAME!
   ) {
     debug("Creating new socket.io frontend network server");
 
