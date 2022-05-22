@@ -45,6 +45,7 @@
   },
   "scripts": {
     "start": "vite",
+    "webpack-dev": "craco --max-old-space-size=12288 start",
     "build": "craco --max-old-space-size=12288 build",
     "test": "craco test",
     "eject": "craco eject",
