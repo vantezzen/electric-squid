@@ -1,5 +1,5 @@
 import React from "react";
-import SquidClient from "../classes/SquidClient";
+import SquidClient from "../lib/SquidClient";
 import TextInput from "./TextInput";
 
 function Console({ game }: { game: SquidClient }) {

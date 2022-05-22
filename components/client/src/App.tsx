@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SquidClient from "./classes/SquidClient";
+import SquidClient from "./lib/SquidClient";
 import { useSyncWithGameState } from "./hooks/useSyncWithGameState";
 import Configuration from "./pages/Configuration";
 import Running from "./pages/Running";

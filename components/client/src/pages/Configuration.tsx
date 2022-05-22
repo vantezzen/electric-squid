@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  GenerationType,
-  GenerationTypes,
-} from "../classes/minecraftServer/types";
-import SquidClient from "../classes/SquidClient";
+import { GenerationType, GenerationTypes } from "../lib/minecraftServer/types";
+import SquidClient from "../lib/SquidClient";
 import Button from "../components/Button";
 import Center from "../components/Center";
 import PageHeader from "../components/PageHeader";

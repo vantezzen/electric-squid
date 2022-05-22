@@ -1,6 +1,6 @@
 import React from "react";
-import { Player } from "../classes/minecraftServer/types";
-import SquidClient from "../classes/SquidClient";
+import { Player } from "../lib/minecraftServer/types";
+import SquidClient from "../lib/SquidClient";
 import Button from "../components/Button";
 import Console from "../components/Console";
 import Fact from "../components/Fact";

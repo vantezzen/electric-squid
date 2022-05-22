@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import SquidClient from "../classes/SquidClient";
+import SquidClient from "../lib/SquidClient";
 import debugging from "debug";
 import { EXTENDED_DEBUGGING } from "../config";
 const debug = debugging("squid:useSyncWithGameState");
