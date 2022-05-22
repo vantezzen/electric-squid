@@ -95,9 +95,11 @@ export default class FlyingSquidWrapper extends EventEmitter {
   }
 
   private setupEventSystem() {
+    this.setStatus("Setting up event system...");
     this._server!.on("error", (error) => this.emit("error", error));
     this.emit("asap");
     this.emit("listening", this.config.port);
+    this.setStatus("Event system is setup");
   }
 
   private addLogMessagesToLogger() {

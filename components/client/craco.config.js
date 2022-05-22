@@ -1,8 +1,34 @@
 const path = require(`path`);
+const ChunkProgressWebpackPlugin = require("chunk-progress-webpack-plugin");
 
 module.exports = {
+  babel: {
+    presets: [],
+    plugins: [],
+    loaderOptions: (babelLoaderOptions, { env, paths }) => {
+      console.log(`babelLoaderOptions:`, babelLoaderOptions);
+
+      return babelLoaderOptions;
+    },
+  },
+
   webpack: {
-    devtool: false,
+    configure: (webpackConfig, { env, paths }) => {
+      webpackConfig.stats = "verbose";
+      webpackConfig.infrastructureLogging = {
+        colors: true,
+        level: "log",
+      };
+      webpackConfig.performance = {
+        hints: "warning",
+        maxAssetSize: 2000,
+        maxEntrypointSize: 4000,
+        assetFilter: () => true,
+      };
+
+      console.log("WP", webpackConfig);
+      return webpackConfig;
+    },
     alias: {
       fs: path.resolve(__dirname, "src", "polyfills", "fs", "index.js"),
       net: path.resolve(__dirname, "src", "polyfills", "net", "index.js"),
@@ -34,6 +60,9 @@ module.exports = {
 
       // "uuid-1345" is used by flying-squid but internally uses MAC Addresses which are not available in the browser
       "uuid-1345": require.resolve("uuid"),
+    },
+    plugins: {
+      add: [new ChunkProgressWebpackPlugin()],
     },
   },
 };
