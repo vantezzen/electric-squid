@@ -8,6 +8,32 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Avenir Next", Avenir,
+            "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+        #loading-screen {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: rgb(15, 23, 42);
+          color: white;
+          z-index: 9999;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+      </style>
+      <div id="loading-screen">
+        <h1>Loading core system...</h1>
+        <p>This might take a few seconds</p>
+      </div>
+    </div>
   </body>
 </html>
