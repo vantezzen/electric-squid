@@ -9,6 +9,12 @@ electric-squid consists of two components:
 - electric-squid-proxy (in components/proxy) creates a light NodeJS proxy Minecraft server that translates game packages into WebSocket packages and sends them to connected WebSocket clients.
 - electric-squid-frontend (in components/client) creates a wrapper and minimal React frontend to enable [flying-squid](https://github.com/PrismarineJS/flying-squid) to run in the browser instead of on a CLI.
 
+The project is currently still very unstable and doesn't support all features implemented by flying-squid.
+
+## Demo
+
+You can try electric-squid directly at <https://squid.blymp.io/>. Please note that the project currently only targets _the latest chrome version_ so other browsers might not be able to boot the server.
+
 ## Progress
 
 electric-squid's functionality is currently very limited:
