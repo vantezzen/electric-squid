@@ -38,9 +38,17 @@ export default class SocketIoFrontendNetworkServer
     this.express = Express();
 
     if (process.env.HOST_FRONTEND == "true") {
-      this.express.use(
-        Express.static(path.resolve(__dirname, "..", "..", "client", "build"))
+      const frontendPath = path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "..",
+        "client",
+        "build"
       );
+      console.log("Hosting frontend from", frontendPath);
+
+      this.express.use(Express.static(frontendPath));
     }
 
     this.httpServer = Http.createServer(this.express);
