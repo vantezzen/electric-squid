@@ -25,7 +25,7 @@ electric-squid's functionality is currently very limited:
 - [x] Send player positions to other players
 - [ ] Send block place/dig to other players
 - [ ] Support saving changes to the world
-- [ ] Allow changing world generation
+- [x] Allow changing world generation
 - [x] Support player disconnect
 
 ## Documentation
