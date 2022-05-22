@@ -39,7 +39,7 @@ export default class SocketIoFrontendNetworkServer
 
     if (process.env.HOST_FRONTEND == "true") {
       this.express.use(
-        Express.static(path.resolve(__dirname, "..", "..", "client", "dist"))
+        Express.static(path.resolve(__dirname, "..", "..", "client", "build"))
       );
     }
 
