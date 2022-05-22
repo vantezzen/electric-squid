@@ -28,8 +28,6 @@ Due to this, the project uses two separate build systems:
 
 You can build the frontend using "npm run build", which will create static output files in "./build". Please note that building the frontend requires at least 12 GiB of RAM as it will crash otherwise.
 
-The final build will have a total size of 350-400MiB.
-
 ## Dependency patching
 
 flying-squid and its dependencies and not optimized to run in a browser and thus use some NodeJS-only features. To enable these packages to run in the browser, electric-squid unfortunately needs to use of a lot of manual patching.
