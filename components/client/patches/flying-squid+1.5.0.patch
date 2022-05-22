@@ -1,3 +1,7 @@
+diff --git a/node_modules/flying-squid/.DS_Store b/node_modules/flying-squid/.DS_Store
+new file mode 100644
+index 0000000..f2d30e8
+Binary files /dev/null and b/node_modules/flying-squid/.DS_Store differ
 diff --git a/node_modules/flying-squid/src/lib/playerDat.js b/node_modules/flying-squid/src/lib/playerDat.js
 index cec32a7..0c44a2c 100644
 --- a/node_modules/flying-squid/src/lib/playerDat.js
@@ -21,16 +25,17 @@ index cec32a7..0c44a2c 100644
    }
  }
 diff --git a/node_modules/flying-squid/src/lib/plugins/log.js b/node_modules/flying-squid/src/lib/plugins/log.js
-index 642379e..687939f 100644
+index 642379e..7f4879f 100644
 --- a/node_modules/flying-squid/src/lib/plugins/log.js
 +++ b/node_modules/flying-squid/src/lib/plugins/log.js
-@@ -1,19 +1,6 @@
+@@ -1,19 +1,7 @@
 -const fs = require('fs')
 -const timeStarted = Math.floor(new Date() / 1000).toString()
 -const path = require('path')
 -const mkdirp = require('mkdirp')
 -const moment = require('moment')
-+const moment = require('moment').default
++const momentPackage = require('moment')
++const moment = momentPackage.default || momentPackage;
  const colors = require('colors')
  
 -const readline = require('readline')
@@ -45,7 +50,7 @@ index 642379e..687939f 100644
  module.exports.server = function (serv, settings) {
    serv.on('error', error => serv.err('Server: ' + error.stack))
    serv.on('clientError', (client, error) => serv.err('Client ' + client.socket.remoteAddress + ':' + client.socket.remotePort + ' : ' + error.stack))
-@@ -25,16 +12,11 @@ module.exports.server = function (serv, settings) {
+@@ -25,16 +13,11 @@ module.exports.server = function (serv, settings) {
  
    serv.on('seed', (seed) => serv.log('Seed: ' + seed))
  
@@ -64,7 +69,7 @@ index 642379e..687939f 100644
    }
  
    serv.info = message => {
-@@ -49,41 +31,8 @@ module.exports.server = function (serv, settings) {
+@@ -49,41 +32,8 @@ module.exports.server = function (serv, settings) {
      serv.log('[' + colors.yellow('WARN') + ']: ' + message)
    }
  

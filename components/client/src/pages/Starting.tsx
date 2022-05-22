@@ -16,10 +16,12 @@ function Starting({ game }: { game: SquidClient }) {
         <SubText className="text-lg py-3">
           {game.minecraftServer.status}
         </SubText>
-        <SubText className="text-lg py-3">
-          Downloaded {chunkProgress.loadedBytes} of {chunkProgress.totalBytes} (
-          {Math.round(chunkProgress.progress)}%)
-        </SubText>
+        {chunkProgress.progress > 0 && (
+          <SubText className="text-lg py-3">
+            Downloaded {chunkProgress.loadedBytes} of {chunkProgress.totalBytes}{" "}
+            ({Math.round(chunkProgress.progress)}%)
+          </SubText>
+        )}
         <SubText>This might take a few seconds</SubText>
       </div>
     </PageLayout>
