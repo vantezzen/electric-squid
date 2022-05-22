@@ -15,9 +15,20 @@ This folder hosts the frontend for electric squid.
 
 Make sure to have the proxy started on the same machine. The first start might be slower as webpack will need to build the dependencies.
 
+## Build system
+
+flying-squid and its dependencies are not optimized for building to a static frontend so the build process pushes some systems to their limit.
+Due to this, the project uses two separate build systems:
+
+- During development, the project uses vite to provide a hot-reloading, manageble development experience. Due to vite's on-the-fly compilation of dependencies, this provides a better experience than using webpack
+- During production, webpack will be used. Rollup (vite's normal build system) crashes when trying to build, so webpack is used instead.<br />
+  Still, craco is used to customize some of the webpack config parameter and the RAM is increased to 12GiB as lower caps will result in out-of-memory exceptions.
+
 ## Building
 
-You can build the frontend using "npm run build", which will create static output files in "./dist".
+You can build the frontend using "npm run build", which will create static output files in "./build". Please note that building the frontend requires at least 12 GiB of RAM as it will crash otherwise.
+
+The final build will have a total size of 350-400MiB.
 
 ## Dependency patching
 

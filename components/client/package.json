@@ -44,12 +44,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "craco --max-old-space-size=12288 start",
+    "start": "vite",
     "build": "craco --max-old-space-size=12288 build",
     "test": "craco test",
     "eject": "craco eject",
     "clear-webpack-cache": "[ ! -e node_modules/.cache ] || rm -r node_modules/.cache",
-    "postinstall": "node scripts/fixMinecraftDataDependencies.js && patch-package && npm run clear-webpack-cache"
+    "clear-vite-cache": "[ ! -e node_modules/.vite ] || rm -r node_modules/.vite",
+    "postinstall": "node scripts/fixMinecraftDataDependencies.js && patch-package && npm run clear-webpack-cache && npm run clear-vite-cache"
   },
   "eslintConfig": {
     "extends": [
@@ -70,6 +71,8 @@
     ]
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^1.3.2",
+    "vite": "^2.9.9",
     "webpack-cli": "^4.9.2"
   }
 }

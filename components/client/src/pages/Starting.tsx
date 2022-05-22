@@ -18,7 +18,7 @@ function Starting({ game }: { game: SquidClient }) {
         </SubText>
         <SubText className="text-lg py-3">
           Downloaded {chunkProgress.loadedBytes} of {chunkProgress.totalBytes} (
-          {chunkProgress.progress}%)
+          {Math.round(chunkProgress.progress)}%)
         </SubText>
         <SubText>This might take a few seconds</SubText>
       </div>
